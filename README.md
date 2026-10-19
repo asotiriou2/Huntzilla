@@ -1,12 +1,12 @@
 # Treasure Hunt Project - The Computing Challenge(CO1034) - Team C
 
 ## _Team Members_
-Andreas William Stavri
+- Andreas William Stavri
 
-Emmanuel Oluwasegun Aderinsola Nwajei
+- Emmanuel Oluwasegun Aderinsola Nwajei
 
-Andreas Sotiriou
+- Andreas Sotiriou
 
-Jeffers Oneil Aburime
+- Jeffers Oneil Aburime
 
-Ali Adnan
+- Ali Adnan
