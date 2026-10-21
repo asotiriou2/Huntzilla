@@ -1,5 +1,36 @@
 #main-title{
     text-align: center;
     color: red;
+    font-family: "Cinzel";
     font-size: 60px;
+    text-shadow: black 1px 1px 1px;
+    background-color: darkgray;
+    border-bottom: black 5px solid;
+    border-top: black 5px solid;
+
+
+}
+
+body{
+    background-color: darkorchid;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+
+}
+
+main{
+    flex: 1;
+}
+
+#Team-C{
+    text-align: left;
+    padding: 10px 20px;
+    margin: 0;
+
+}
+
+footer{
+    width: 100%;
 }
