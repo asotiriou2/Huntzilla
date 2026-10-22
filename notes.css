@@ -17,8 +17,9 @@ main{
 }
 
 main p#message{
-    max-width: 1000px;
+    max-width: 700px;
     font-style: italic;
+    text-align: center;
 }
 
 main .week-progress{
@@ -30,18 +31,23 @@ main .week-progress{
     color: black;
     gap: 20px;
     max-width: 1000px;
-    background-color: #bfdeff;
+    border: 3px dashed #1e1e1e;
+}
+.week-progress h2{
+    text-align: center;
+    width: 100%;
 }
 .week-progress ul{
-    list-style: none;
     color: black;
+    margin-left: 15px;
 }
 .week-progress ul li{
-    padding: 20px;
+    padding: 20px 0 20px 0;
 }
-.week-progress ul li:nth-child(odd){
-    background-color: #d1e7ff;
+
+.github-commits{
+    color: black;
 }
-.week-progress ul li:nth-child(even){
-    background-color: #96c9ff;
+.week-progress span{
+    color: #1d66ef;
 }
