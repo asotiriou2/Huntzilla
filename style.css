@@ -1,4 +1,5 @@
 #main-title{
+    margin-top: 0;
     text-align: center;
     color: #00F1F3;
     font-family: "Cinzel";
@@ -29,13 +30,18 @@ main{
     font-family: "Cinzel";
     font-size: 30px;
     color: #00F1F3;
+    margin: 0 auto;
+    border-radius: 10px 10px 0 0;
+    width: 300px;
 }
 
 #enter-space{
     text-align: center;
+    margin-top: 0;
     margin-bottom:30px;
     margin-left: auto;
     margin-right: auto;
+    border-radius: 0 0 10px 10px;
     padding: 30px;
     width: 300px;
     background-color: #005E89;
