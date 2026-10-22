@@ -48,6 +48,11 @@ main .week-progress{
 .github-commits{
     color: black;
 }
-.week-progress span{
-    color: #1d66ef;
+.week-progress a {
+    color: #268aff;
+    opacity: 0.7;
+    transition: opacity 0.15s ease-in-out;
+}
+.week-progress a:hover{
+    opacity: 1;
 }
