@@ -1,0 +1,54 @@
+#main-title{
+    text-align: center;
+    color: #00F1F3;
+    font-family: "Cinzel";
+    font-size: 60px;
+    text-shadow: black 1px 1px 1px;
+    background-color: #005E89;
+    border-bottom: #007BB3 5px solid;
+    border-top: #007BB3 5px solid;
+
+
+}
+
+body{
+    background-color: #002E73;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+
+}
+
+main{
+    flex: 1;
+}
+
+#name{
+    text-align: center;
+    font-family: "Cinzel";
+    font-size: 30px;
+    color: #00F1F3;
+}
+
+#enter-space{
+    text-align: center;
+    margin-bottom:30px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 30px;
+    width: 300px;
+    background-color: #005E89;
+}
+
+#Team-C{
+    text-align: left;
+    padding: 10px 20px;
+    margin: 0;
+    color: #00F1F3;
+
+}
+
+footer{
+    width: 100%;
+}
