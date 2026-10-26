@@ -131,6 +131,26 @@ main{
     text-shadow: black 2px 2px 2px;
 }
 
+#socials{
+    color: #00F1F3;
+    text-shadow: black 2px 2px 2px;
+}
+
+#insta{
+    color: white;
+    text-shadow: black 2px 2px 2px;
+}
+
+#facebook{
+    color: white;
+    text-shadow: black 2px 2px 2px;
+}
+
+#twitter{
+    color: white;
+    text-shadow: black 2px 2px 2px;
+}
+
 footer{
     display: flex;
     justify-content: space-between;
