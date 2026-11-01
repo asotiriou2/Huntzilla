@@ -5,7 +5,23 @@
     font-family: "Cinzel";
     font-size: 60px;
     text-shadow: black 5px 5px 5px;
+}
+#Notes{
+    text-align: left;
+    justify-content: space-between ;
+    align-items : center;
+    color: greenyellow;
+    font-family: Algerian;
+    font-size: 20px;
 
+}
+#treasure{
+    text-align:right;
+    justify-content: space-between;
+    align-items: center;
+    color : greenyellow;
+    font-family: Algerian;
+    font-size: 20px;
 }
 
 header{
@@ -142,7 +158,7 @@ main{
     text-shadow: black 2px 2px 2px;
 }
 
-#insta{
+#Instagram{
     color: white;
     text-shadow: black 2px 2px 2px;
 }
@@ -179,4 +195,5 @@ footer{
     text-align: center ;
 
 }
+
 
