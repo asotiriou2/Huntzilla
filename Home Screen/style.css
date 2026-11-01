@@ -158,8 +158,25 @@ main{
 }
 
 footer{
+    text-align: right ;
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
+    align-items: flex-end;
     width: 100%;
+
 }
+
+.left-footer {
+    text-align: left;
+}
+
+.right-footer {
+    text-align: right;
+}
+
+
+.middle-footer{
+    text-align: center ;
+
+}
+
