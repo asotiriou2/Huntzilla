@@ -58,6 +58,12 @@ main{
     color: white;
     font-size: 20px
 }
+#answer{
+    text-align: center;
+    padding-top: 20px;
+    color: white;
+    font-size: 20px;
+}
 
 .left, .right-button{
     width: 100px;
