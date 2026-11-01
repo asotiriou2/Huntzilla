@@ -10,7 +10,7 @@
     margin: 10px 0;
     text-align: center;
     color: #00F1F3;
-    font-family: "Cinzel";
+    font-family: "Cinzel", cursive;
     font-size: 60px;
     text-shadow: black 5px 5px 5px;
 
@@ -25,11 +25,10 @@ header{
     border-top: #007BB3 5px solid;
     padding: 0 20px;
 }
-
-.header-left, .header-right{
-    width: 100px;
+.header-centre img{
+    width: 200px;
+    height: auto;
 }
-
 body{
     background-color: #002E73;
     display: flex;
@@ -147,7 +146,7 @@ main{
     padding: 10px 20px;
     margin: 0;
     color: #ffffff;
-    font-size: 8px;
+    font-size: 12px;
     text-shadow: black 2px 2px 2px;
 }
 
@@ -172,27 +171,30 @@ main{
 }
 
 footer{
-    text-align: right ;
     display: flex;
+    flex-direction: row;
+    align-items: center;
     justify-content: space-between;
-    align-items: flex-end;
-    width: 100%;
-
+    background-color: #030315;
+    color: black;
+    padding: 20px;
+    height: 200px;
+    font-size: 17px;
 }
 
-.left-footer {
-    text-align: left;
-}
+/*.left-footer {*/
+/*    text-align: left;*/
+/*}*/
 
-.right-footer {
-    text-align: right;
-}
+/*.right-footer {*/
+/*    text-align: right;*/
+/*}*/
 
 
-.middle-footer{
-    text-align: center ;
+/*.middle-footer{*/
+/*    text-align: center ;*/
 
-}
+/*}*/
 
 .project-information{
     display: flex;
@@ -261,10 +263,15 @@ footer{
     font-family: Arial, sans-serif;
     border-radius: 5px;
     text-align: center;
-}
-#navigation li a:first-child{
+    transition: background-color 0.15s ease-in, color 0.15s ease-in;
     background-color: white;
+
 }
+#navigation li a:hover{
+    background-color: #9d6cff;
+    color: white;
+}
+
 #team-members{
     display: flex;
     flex-direction: column;
@@ -350,4 +357,19 @@ footer{
 }
 #social-media h2{
     color: white;
+}
+#social-media-container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding-top: 10px;
+}
+.right-footer .social-media-icon{
+    width: 25px;
+    height: 25px;
+}
+.right-footer{
+   padding: 10px 20px;
 }
