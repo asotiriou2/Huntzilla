@@ -30,9 +30,9 @@ header{
     height: auto;
 }
 body{
-    background-image: url("https://images.unsplash.com/photo-1689718107045-513b35f1a356?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=NHwxMjA3fDA%3D");
-    background-size: contain;
-    background-repeat: repeat;    width: auto;
+    background-image: url("media/try100.png");
+    background-size: cover;
+    background-repeat: repeat;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
@@ -264,7 +264,7 @@ footer{
     border-radius: 5px;
     text-align: center;
     transition: background-color 0.15s ease-in, color 0.15s ease-in;
-    background-color: rgb(255 255 0 / 0.84);
+    background-color: #FFD700;
 
 }
 #navigation li a:hover{
