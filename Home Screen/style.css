@@ -30,8 +30,8 @@ header{
     height: auto;
 }
 body{
-    background-image: url("media/try100.png");
-    background-size: cover;
+    background-image: url("Teal Pixel City Banner with Yellow Streaks.png");
+    background-size: contain;
     background-repeat: repeat;
     display: flex;
     flex-direction: column;
