@@ -64,21 +64,86 @@ main{
     align-items: center;
 }
 
-.main-right{}
+#story{
+    /*Cosmetics*/
+    color: #FFD700;
+    font-family: "Franklin Gothic Medium Cond", cursive;
+    font-size: 35px;
+    /*Spacing*/
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    padding-bottom: 50px;
+}
 
-/*--------------------------------------------------------------------------------------------------------------------*/
+#nav-box{
+    /*Spacing*/
+    padding: 250px;
+    margin-top: 50px;
+    /*Cosmetics*/
 
-footer{
+}
+
+#nav-box ul{
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    justify-content: center;
+    gap: 50px;
+    list-style: none;
+    max-width: 1200px;
+    width: 100%;
+    padding: 20px;
+    border-radius: 20px;
+    background-color: #005E89;
+    border: #007BB3 5px solid;
+}
+
+#nav-box li {
+    max-width: 300px;
+    width: 100%;
+    display: flex;
+}
+
+#nav-box li a{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-size: 25px;
+    padding: 10px;
+    width: 100%;
+    color: black;
+    font-family: Arial, sans-serif;
+    border-radius: 5px;
+    text-align: center;
+    transition: background-color 0.15s ease-in, color 0.15s ease-in;
+    background-color: #FFD700;
+}
+
+#nav-box li a:hover {
+    background-color: #26d51b;
+    color: white;
+}
+
+.main-right {}
+
+    /*--------------------------------------------------------------------------------------------------------------------*/
+
+footer {
     /*Spacing*/
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.footer-left{}
+.footer-left {
+}
 
-.footer-centre{}
+.footer-centre {
+}
 
-.footer-right{}
+.footer-right {
+}
 
 /*--------------------------------------------------------------------------------------------------------------------*/
