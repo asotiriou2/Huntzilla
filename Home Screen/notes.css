@@ -64,11 +64,23 @@ main{
     align-items: center;
 }
 
+#journey{
+    /*Spacing*/
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 50px;
+    /*Cosmetics*/
+    color: white;
+}
+
 #story{
     /*Cosmetics*/
     color: #FFD700;
     font-family: "Franklin Gothic Medium Cond", cursive;
-    font-size: 35px;
+    font-size: 28px;
     /*Spacing*/
     align-items: center;
     display: flex;
