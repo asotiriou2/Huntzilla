@@ -72,8 +72,12 @@ main{
     align-items: center;
     text-align: center;
     padding: 50px;
+    margin: 50px;
     /*Cosmetics*/
     color: white;
+    border-radius: 20px;
+    background-color: #005E89;
+    border: #007BB3 5px solid;
 }
 
 #story{
@@ -86,12 +90,14 @@ main{
     display: flex;
     justify-content: center;
     padding-bottom: 50px;
+    padding-right: 65px;
 }
 
 #nav-box{
     /*Spacing*/
-    padding: 250px;
-    margin-top: 50px;
+    justify-content: center;
+    padding-left: 160px;
+    padding-right: 50px ;
     /*Cosmetics*/
 
 }
@@ -154,6 +160,33 @@ footer {
 
 .footer-centre {
 }
+
+#go-back{
+    /*Cosmetics*/
+    font-size: 25px;
+    /*Spacing*/
+    margin-top: 50px;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+#go-go{
+    /*Cosmetics*/
+    background-color: #FFD700;
+    color: black;
+    text-decoration: none;
+    /*Spacing*/
+    border-radius: 5px;
+    padding: 5px;
+
+}
+
+#go-back a:hover {
+    /*Cosmetics*/
+    background-color: #26d51b;
+    color: white;
+}
+
 
 .footer-right {
 }
