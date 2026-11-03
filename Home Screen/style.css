@@ -265,6 +265,7 @@ footer{
     text-align: center;
     transition: background-color 0.15s ease-in, color 0.15s ease-in;
     background-color: #FFD700;
+    border: black 2px solid;
 
 }
 #navigation li a:hover{
@@ -373,4 +374,25 @@ footer{
 }
 .right-footer {
     padding: 10px 20px;
+}
+
+#jingle{
+}
+
+.right-main-button{
+    padding: 10px;
+    border-radius: 10px;
+}
+
+#music-button{
+    background-color: #FFD700;
+    font-size: 20px;
+    border-radius: 5px;
+    padding: 5px;
+    border: black 2px solid;
+}
+
+#music-button:hover{
+    background-color: #26d51b;
+    color: white;
 }

@@ -137,6 +137,7 @@ main{
     text-align: center;
     transition: background-color 0.15s ease-in, color 0.15s ease-in;
     background-color: #FFD700;
+    border: black 2px solid;
 }
 
 #nav-box li a:hover {
@@ -175,6 +176,7 @@ footer {
     background-color: #FFD700;
     color: black;
     text-decoration: none;
+    border: black 2px solid;
     /*Spacing*/
     border-radius: 5px;
     padding: 5px;
