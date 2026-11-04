@@ -43,8 +43,7 @@ header{
 #notes{
     /*Cosmetics*/
     color: #FFD700;
-    font-family: "Franklin Gothic Medium Cond", cursive;
-}
+    font-family: "Franklin Gothic Medium", cursive;}
 
 .header-right{}
 
@@ -83,8 +82,7 @@ main{
 #story{
     /*Cosmetics*/
     color: #FFD700;
-    font-family: "Franklin Gothic Medium Cond", cursive;
-    font-size: 28px;
+    font-family: "Franklin Gothic Medium", cursive;    font-size: 28px;
     /*Spacing*/
     align-items: center;
     display: flex;

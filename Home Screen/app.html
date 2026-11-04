@@ -17,31 +17,28 @@
                     <a href="Landing-page.html">Home</a>
                 </li>
                 <li class="menu-option">
-                    <a href="notes.html">Team Notes</a>
-                </li>
-                <li class="menu-option">
                    <a href="/">Leaderboard</a>
                 </li>
+                <li class="menu-option">
+                    <a id="music-button" href="#">Music Off: 🔇</a>
+                </li>
+                <audio id="jingle" loop>
+                    <source src="../media/jingle.mp3" type="audio/mpeg">
+                </audio>
             </ul>
         </nav>
 
     </header>
     <main>
         <div id="game">
-            <h1>Huntzilla</h1>
+            <img id="logozilla" src="../media/logo2.png" alt="Huntzilla Logo"/>
             <h2>Are You Ready to Hunt For Glory?</h2>
 
             <button id="start-game">START</button>
         </div>
     </main>
 
-    <a id="music-button">
-    <audio id="jingle" loop>
-        <source src="../media/jingle.mp3" type="audio/mpeg">
-    </audio>
-    </a>
-
-
     <script src="../app/script.js"></script>
+
 </body>
 </html>
