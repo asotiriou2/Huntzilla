@@ -7,10 +7,10 @@ if (musicBtn && audio) {
 
         if (audio.paused) {
             audio.play();
-            musicBtn.innerText = "Music On: 🔊";
+            musicBtn.innerText = "Music (On)";
         } else {
             audio.pause();
-            musicBtn.innerText = "Music Off: 🔇";
+            musicBtn.innerText = "Music (Off)";
         }
     });
 }
