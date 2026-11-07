@@ -14,7 +14,7 @@
                     <h1>Huntzilla</h1>
                 </li>
                 <li class="menu-option">
-                    <a href="Landing-page.html">Home</a>
+                    <a href="index.html">Home</a>
                 </li>
                 <li class="menu-option">
                    <a href="/">Leaderboard</a>
@@ -30,11 +30,35 @@
 
     </header>
     <main>
-        <div id="game">
+        <div id="game-not-started" class="game-container" aria-hidden="false">
             <img id="logozilla" src="media/logo2.png" alt="Huntzilla Logo"/>
             <h2>Are You Ready to Hunt For Glory?</h2>
 
             <button id="start-game">START</button>
+        </div>
+        <div id="game-started" class="game-container" aria-hidden="true">
+            <div id="breadcrumb">
+                <button id="go-back">< Go Back</button>
+                <img src="../media/logo2.png" alt="Huntzilla Logo"/>
+            </div>
+            <form id="treasure-hunt-form">
+                <div class="input-container">
+                    <label for="player">Player Name:</label>
+                    <input type="text" name="player" id="player" required/>
+                </div>
+                <div class="input-container">
+                    <label for="world">World Name: </label>
+                    <input type="text" name="world" id="world" required/>
+                </div>
+                <div class="treasure-hunts-container">
+                    <p id="info">Choose one of the available treasure hunts</p>
+                    <ul id="treasure-hunts-list">
+                        <!---Buttons added dynamically-->
+                    </ul>
+                </div>
+                <input type="button" id="submit" value="Play"/>
+                <p id="error-message" aria-hidden="true"></p>
+            </form>
         </div>
     </main>
 

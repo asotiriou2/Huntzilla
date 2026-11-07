@@ -1,7 +1,12 @@
-*{
+* {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+}
+:root {
+    --button-bg: #FFD700;
+    --button-hover-bg: #26d51b;
+    --button-transition: background-color 0.15s ease-in, color 0.15s ease-in;
 }
 body{
 
@@ -42,96 +47,247 @@ header nav ul{
 #logozilla {
     height: 350px;
 }
-    .menu-option {
+
+.menu-option {
     max-width: 120px;
     width: 100%;
-    display: inline-block;}
+    display: inline-block;
+}
 
 
-    .menu-option a {
-        display: inline-block;
-        text-decoration: none;
-        font-size: 15px;
-        padding: 8px;
-        width: 100%;
-        color: black;
-        font-family: Arial, sans-serif;
-        border-radius: 5px;
-        text-align: center;
-        transition: background-color 0.15s ease-in, color 0.15s ease-in;
-        background-color: #FFD700;
-        border: black 2px solid;
+.menu-option a {
+    display: inline-block;
+    text-decoration: none;
+    font-size: 15px;
+    padding: 8px;
+    width: 100%;
+    color: black;
+    font-family: Arial, sans-serif;
+    border-radius: 5px;
+    text-align: center;
+    transition: var(--button-transition);
+    background-color: var(--button-bg);
+    border: black 2px solid;
+}
+
+.menu-option a:hover {
+    background-color: var(--button-hover-bg);
+    color: white;
+}
+
+main {
+    margin-top: 50px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+}
+
+#jingle{
+
+}
+
+#game-not-started,
+#game-started{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: "Cinzel", Arial, sans-serif;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    box-shadow: 0 5px 10px rgb(60 60 60 / 0.49);
+    gap: 30px;
+    min-width: 1500px;
+    min-height: 1100px;
+    border-radius: 15px;
+}
+#game-not-started[aria-hidden="true"],
+#game-started[aria-hidden="true"]{
+    display: none;
+}
+#game-not-started[aria-hidden="false"],
+#game-started[aria-hidden="false"]{
+    display: flex;
+}
+#game-not-started h2 {
+    font-family: "Cinzel", Arial, sans-serif;
+    color: white;
+    font-size: 35px;
+}
+
+#start-game {
+    padding: 20px;
+    color: black;
+    background-color: #FFD700;
+    border: black solid 5px;
+    box-shadow: 0px 0px 20px rgb(255 166 0);
+    font-size: 25px;
+    border-radius: 10px;
+    margin-top: 60px;
+    cursor: pointer;
+    min-width: 200px;
+    animation: start_animation 2s infinite;
+}
+
+#start-game:hover {
+    background-color: #26d51b;
+    color: white;
+}
+
+
+
+@keyframes start_animation {
+    0% {
+        transform: scale(1);
     }
-
-    .menu-option a:hover {
-        background-color: #26d51b;
-        color: white;
+    50% {
+        transform: scale(1.2);
     }
-
-    main {
-        margin-top: 50px;
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        height: 100%;
+    100% {
+        transform: scale(1);
     }
+}
 
-    #jingle{
+#game-started{
+    background-color: rgb(0 0 0 / 0.75);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    overflow: hidden;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 30px;
+}
 
-    }
+#game-started #breadcrumb{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    height: 100px;
+    background-color: #005E89;
+    position: relative;
+}
+#game-started #breadcrumb #go-back {
+    background-color: var(--button-bg);
+    color: black;
+    transition: var(--button-transition);
+    cursor: pointer;
+    border: none;
+    font-size: 18px;
+    position: absolute;
+    top: 120px;
+    left: 20px;
+    padding: 10px;
+    border-radius: 5px;
+}
+#game-started #breadcrumb #go-back:hover{
+    background-color: var(--button-hover-bg);
+    color: white;
+}
+#game-started #breadcrumb img{
+    width: 120px;
+    height: auto;
+}
+#game-started #info{
+    margin-top: 50px;
+    font-size: 25px;
+}
+#game-started #treasure-hunts-list{
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 30px;
+    margin-top: 30px;
+}
+#game-started #treasure-hunts-list li .treasure-hunt-button{
+    color: black;
+    background-color: var(--button-bg);
+    border: white 2px solid;
+    font-size: 25px;
+    cursor: pointer;
+    width: 500px;
+    padding: 15px 0;
+    border-radius: 5px;
+    /*transition: var(--button-transition);*/
+    overflow-wrap: break-word;
+}
 
-    #game {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        font-family: "Cinzel", Arial, sans-serif;
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        box-shadow: 0 5px 10px rgb(60 60 60 / 0.49);
-        gap: 30px;
-        min-width: 1500px;
-        min-height: 1100px;
-    }
+/*#game.started #treasure-hunts-list li .treasure-hunt-button:hover{*/
+/*    background-color: var(--button-hover-bg);*/
+/*    color: white;*/
+/*}*/
 
-    #game h2 {
-        font-family: "Cinzel", Arial, sans-serif;
-        color: white;
-        font-size: 35px;
-    }
+#game-started #treasure-hunt-form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 30px;
+    margin-top: 100px;
+}
+#game-started #treasure-hunt-form .input-container{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 15px;
+}
+#game-started #treasure-hunt-form .input-container input{
+    width: 300px;
+    padding: 15px;
+    border-radius: 5px;
+    background-color: transparent;
+    border: 1px solid white;
+    color: white;
+    font-size: 18px;
+}
+#game-started #treasure-hunt-form .input-container label{
+    font-size: 20px;
+}
+#game-started #treasure-hunt-form .treasure-hunt-container{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 15px;
+}
 
-    #start-game {
-        padding: 20px;
-        color: black;
-        background-color: #FFD700;
-        border: black solid 5px;
-        box-shadow: 0px 0px 20px rgb(255 166 0);
-        font-size: 25px;
-        border-radius: 10px;
-        margin-top: 60px;
-        cursor: pointer;
-        min-width: 200px;
-        animation: start_animation 2s infinite;
-    }
-
-    #start-game:hover {
-        background-color: #26d51b;
-        color: white;
-    }
-
-
-
-    @keyframes start_animation {
-        0% {
-            transform: scale(1);
-        }
-        50% {
-            transform: scale(1.2);
-        }
-        100% {
-            transform: scale(1);
-        }
-    }
+#game-started #treasure-hunt-form .treasure-hunt-button.selected{
+    border: 4px solid #729fff;
+}
+#game-started #treasure-hunt-form #submit{
+    padding: 15px 0;
+    font-size: 20px;
+    background-color: #2d6eff;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    width: 150px;
+    cursor: pointer;
+}
+#game-started #treasure-hunt-form #submit:disabled{
+    cursor: not-allowed;
+    background-color: #8d8d8d;
+}
+#game-started #treasure-hunt-form #error-message[aria-hidden="true"]{
+    display: none;
+}
+#game-started #treasure-hunt-form #error-message[aria-hidden="false"]{
+    display: block;
+    padding: 15px 20px;
+    width: 500px;
+    overflow-wrap: break-word;
+    color: #ff4b4b;
+    font-size: 18px;
+    text-align: center;
+    border-radius: 5px;
+}
