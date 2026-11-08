@@ -137,7 +137,10 @@ main {
     background-color: #26d51b;
     color: white;
 }
-
+#start-game:disabled{
+    cursor: not-allowed;
+    color: black;
+}
 
 
 @keyframes start_animation {

@@ -40,7 +40,11 @@ if (musicBtn && audio) {
 }
 
 startGameButton.addEventListener("click", async () => {
+    startGameButton.disabled = true;
+    startGameButton.innerText = "STARTING...";
     availableTreasureHunts = (await fetchAvailableTreasureHunts()).treasureHunts;
+    startGameButton.disabled = false;
+    startGameButton.innerText = "START";
     gameNotStarted.ariaHidden = "true";
     gameStarted.ariaHidden = "false";
 
