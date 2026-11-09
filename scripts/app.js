@@ -12,8 +12,22 @@ const player = document.getElementById("player");
 const APP_NAME = "Huntzilla-Team-C";
 const part2Container = document.getElementById("part-2");
 const part1Container = document.getElementById("part-1");
-let treasureHuntButtons = [];
+const treasureHuntSession = document.getElementById("treasure-hunt-session");
+const question = document.getElementById("question");
+const treasureHuntForm = document.getElementById("treasure-hunt-form");
 
+const findSessionCookie = () => {
+    for (const c of document.cookie.split(";")){
+       if (c.includes("treasure-hunt-session")){
+           const cookieArray = c.split("=");
+           return {
+               key: cookieArray[0] ,
+               value: cookieArray[1]
+           }
+       }
+    }
+    return null;
+}
 // This is the object that holds information about the available treasure hunts
 let availableTreasureHunts = {};
 let selectedTreasureHunt = null;
@@ -27,6 +41,33 @@ let formData = {
     }
 };
 
+const fetchNextQuestion = async () => {
+
+    const URL = `${API_URL}/question?session=${sessionCookie.value}`;
+
+    const response = await fetch(URL);
+
+    return await response.json();
+}
+const questionLogic = () => {
+    fetchNextQuestion().then(data => {
+        console.log(data);
+        if (data.status === "OK"){
+            treasureHuntSession.ariaHidden = "false";
+            gameNotStarted.ariaHidden = "true";
+            gameStarted.ariaHidden = "false";
+            treasureHuntForm.ariaHidden = "true";
+            question.innerHTML = data.questionText;
+        }else{
+            alert(data.errorMessages);
+            document.cookie = "treasure-hunt-session=;max-age=0;path=/;";
+            gameNotStarted.ariaHidden = "false";
+            gameStarted.ariaHidden = "true";
+            treasureHuntSession.ariaHidden = "true";
+            treasureHuntForm.ariaHidden = "true";
+        }
+    });
+}
 if (musicBtn && audio) {
     musicBtn.addEventListener("click", function(event) {
         event.preventDefault();
@@ -40,7 +81,17 @@ if (musicBtn && audio) {
         }
     });
 }
-
+// Check to see if a session is active from cookies
+const sessionCookie = findSessionCookie();
+if (sessionCookie){
+    questionLogic();
+}else{
+   // I haven't started the game
+   // Start the game
+    treasureHuntSession.ariaHidden = "true";
+    gameNotStarted.ariaHidden = "false";
+    gameStarted.ariaHidden = "true";
+}
 startGameButton.addEventListener("click", async () => {
     startGameButton.disabled = true;
     startGameButton.innerText = "STARTING...";
@@ -49,6 +100,10 @@ startGameButton.addEventListener("click", async () => {
     startGameButton.innerText = "START";
     gameNotStarted.ariaHidden = "true"
     gameStarted.ariaHidden = "false";
+    treasureHuntForm.ariaHidden = "false";
+    treasureHuntSession.ariaHidden = "true";
+    part1Container.ariaHidden = "false";
+    part2Container.ariaHidden = "true";
 
     // Empty the list: Go Back button created which doesn't refresh the page
     treasureHuntsList.innerHTML = "";
@@ -78,7 +133,6 @@ startGameButton.addEventListener("click", async () => {
                     </g> 
                 </g>
             </svg> `;
-        treasureHuntButtons.push(button);
         listItem.appendChild(button);
 
         treasureHuntsList.appendChild(listItem);
@@ -112,6 +166,8 @@ submitButton.addEventListener("click", async (event) => {
     submitButton.disabled = true;
     event.target.value = "Loading..."
     await startTreasureHuntGame();
+    location.reload();
+    questionLogic();
 });
 
 
@@ -140,7 +196,7 @@ const startTreasureHuntGame = async () => {
     }else{
         //Store the session id in cookies and number of questions in local storage
         const now = new Date();
-        const expireMilliseconds =  60 * 1000;
+        const expireMilliseconds = 2 * 60 * 60 * 1000;
         const expireDate = new Date(now.getTime() + expireMilliseconds);
         console.log(expireDate);
 
@@ -148,7 +204,7 @@ const startTreasureHuntGame = async () => {
 
         localStorage.setItem("treasure-hunt-number-of-questions", data.numOfQuestions);
         submitButton.disabled = false;
-        submitButton.value = "Game is Starting!";
+        submitButton.value = "Starting...";
     }
 
 };
@@ -158,4 +214,4 @@ const resetForm = () => {
     submitButton.disabled = false;
     submitButton.value = "Start Game";
 };
-console.log(formData.isEmpty());
+
