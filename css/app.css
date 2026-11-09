@@ -7,6 +7,7 @@
     --button-bg: #FFD700;
     --button-hover-bg: #26d51b;
     --button-transition: background-color 0.15s ease-in, color 0.15s ease-in;
+    --treasure-hunt-button-hover-bg: #ff8a4c;
 }
 body{
 
@@ -177,6 +178,12 @@ main {
     background-color: #005E89;
     position: relative;
 }
+#game-started #breadcrumb #go-back[aria-hidden="true"]{
+    display: none;
+}
+#game-started #breadcrumb #go-back[aria-hidden="false"]{
+    display: block;
+}
 #game-started #breadcrumb #go-back {
     background-color: var(--button-bg);
     color: black;
@@ -222,8 +229,14 @@ main {
     border-radius: 5px;
     /*transition: var(--button-transition);*/
     overflow-wrap: break-word;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    transition: background-color 0.15s ease-in;
 }
-
+#game-started #treasure-hunts-list li .treasure-hunt-button:hover{
+    background-color: var(--treasure-hunt-button-hover-bg);
+}
 /*#game.started #treasure-hunts-list li .treasure-hunt-button:hover{*/
 /*    background-color: var(--button-hover-bg);*/
 /*    color: white;*/
@@ -235,7 +248,7 @@ main {
     align-items: center;
     justify-content: flex-start;
     gap: 30px;
-    margin-top: 100px;
+    margin-top: 150px;
 }
 #game-started #treasure-hunt-form .input-container{
     display: flex;
@@ -256,12 +269,24 @@ main {
 #game-started #treasure-hunt-form .input-container label{
     font-size: 20px;
 }
-#game-started #treasure-hunt-form .treasure-hunt-container{
+#game-started #treasure-hunt-form #part-1[aria-hidden="true"],
+#game-started #treasure-hunt-form #part-2[aria-hidden="true"]{
+   display: none;
+}
+#game-started #treasure-hunt-form #part-1[aria-hidden="false"],
+#game-started #treasure-hunt-form #part-2[aria-hidden="false"]{
+    display: flex;
+}
+#game-started #treasure-hunt-form .part-container{
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     justify-content: flex-start;
     gap: 15px;
+}
+#game-started #treasure-hunt-form #part-2{
+    margin-top: 50px;
+    gap: 30px;
 }
 
 #game-started #treasure-hunt-form .treasure-hunt-button.selected{
@@ -293,4 +318,12 @@ main {
     font-size: 18px;
     text-align: center;
     border-radius: 5px;
+}
+.treasure-hunt-button #submit-icon{
+    /*Style for icon*/
+    width: 40px;
+    height: 40px;
+}
+.treasure-hunt-button #submit-icon path{
+    fill: green;
 }

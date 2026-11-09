@@ -9,12 +9,14 @@ const errorMsg = document.getElementById("error-message");
 const goBackButton = document.getElementById("go-back");
 const submitButton = document.getElementById("submit");
 const player = document.getElementById("player");
-const world = document.getElementById("world");
+const APP_NAME = "Huntzilla-Team-C";
+const part2Container = document.getElementById("part-2");
+const part1Container = document.getElementById("part-1");
+let treasureHuntButtons = [];
 
 // This is the object that holds information about the available treasure hunts
 let availableTreasureHunts = {};
 let selectedTreasureHunt = null;
-let selectedTreasureHuntButton = null;
 
 let formData = {
     playerName: "",
@@ -45,71 +47,77 @@ startGameButton.addEventListener("click", async () => {
     availableTreasureHunts = (await fetchAvailableTreasureHunts()).treasureHunts;
     startGameButton.disabled = false;
     startGameButton.innerText = "START";
-    gameNotStarted.ariaHidden = "true";
+    gameNotStarted.ariaHidden = "true"
     gameStarted.ariaHidden = "false";
 
     // Empty the list: Go Back button created which doesn't refresh the page
     treasureHuntsList.innerHTML = "";
-    resetForm();
-
+    console.log(availableTreasureHunts);
     for (const treasureHunt of availableTreasureHunts){
         const listItem = document.createElement("li");
         const button = document.createElement("button");
+
         button.type = "button";
         button.classList.add("treasure-hunt-button");
         button.dataset.treasureHunt = JSON.stringify(treasureHunt);
-        button.innerText = treasureHunt.description;
+        button.innerText = treasureHunt.name;
+        button.innerHTML = `${treasureHunt.name} 
+            <svg id="submit-icon" viewBox="-0.5 0 7 7" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#000000">
+                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                <g> 
+                    <title>play [#1003]</title> 
+                    <desc>Created with Sketch.</desc> 
+                    <defs> </defs> 
+                    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> 
+                        <g id="Dribbble-Light-Preview" transform="translate(-347.000000, -3766.000000)" fill="#000000"> 
+                            <g id="icons" transform="translate(56.000000, 160.000000)"> 
+                                <path d="M296.494737,3608.57322 L292.500752,3606.14219 C291.83208,3605.73542 291,3606.25002 291,3607.06891 L291,3611.93095 C291,3612.7509 291.83208,3613.26444 292.500752,3612.85767 L296.494737,3610.42771 C297.168421,3610.01774 297.168421,3608.98319 296.494737,3608.57322" id="play-[#1003]"> </path> 
+                            </g> 
+                        </g>
+                    </g> 
+                </g>
+            </svg> `;
+        treasureHuntButtons.push(button);
         listItem.appendChild(button);
+
         treasureHuntsList.appendChild(listItem);
-    }
-    let treasureHuntButtons = document.getElementsByClassName("treasure-hunt-button");
-    for (const button of treasureHuntButtons){
-        button.addEventListener("click", (event) => {
-            if (selectedTreasureHuntButton !== button) {
-                selectedTreasureHuntButton = button;
-                button.classList.add("selected");
-                selectedTreasureHunt = JSON.parse(button.dataset.treasureHunt);
-            }
-            for (let sb of treasureHuntButtons){
-                if (sb !== button){
-                    sb.classList.remove("selected");
-                }
-            }
+
+        button.addEventListener("click", async () => {
+            resetForm();
+            selectedTreasureHunt = JSON.parse(button.dataset.treasureHunt);
+            goBackButton.ariaHidden = "false";
+            part2Container.ariaHidden = "false";
+            part1Container.ariaHidden = "true";
         })
     }
 });
-
 submitButton.addEventListener("click", async (event) => {
     event.preventDefault();
+
     if (player.value.length === 0){
         errorMsg.innerText = "Please enter a player name";
-        errorMsg.ariaHidden = "false";
-        return;
-    }
-    else if (world.value.length === 0){
-        errorMsg.innerText = "Please enter a world name";
-        errorMsg.ariaHidden = "false";
-        return;
-    }else if (selectedTreasureHunt === null){
-        errorMsg.innerText = "Please select a treasure hunt";
         errorMsg.ariaHidden = "false";
         return;
     }else{
         errorMsg.ariaHidden = "true";
     }
+
     formData.playerName = player.value.trim().split(" ").join("-");
-    formData.appName = world.value.trim().split(" ").join("-");
+    formData.appName = APP_NAME;
     formData.treasureHunt = selectedTreasureHunt;
 
     console.log(formData);
+
     submitButton.disabled = true;
     event.target.value = "Loading..."
     await startTreasureHuntGame();
 });
 
+
 goBackButton.addEventListener("click", (event) => {
-    gameStarted.ariaHidden = "true";
-    gameNotStarted.ariaHidden = "false";
+    part1Container.ariaHidden = "false";
+    part2Container.ariaHidden = "true";
 });
 const fetchAvailableTreasureHunts = async () => {
     const response = await fetch(`${API_URL}/list`);
@@ -122,13 +130,23 @@ const startTreasureHuntGame = async () => {
 
     const data = await response.json();
 
+
     console.log(data);
     if (data.status === "ERROR"){
         errorMsg.ariaHidden = "false";
         errorMsg.innerHTML = data.errorMessages[0];
         submitButton.disabled = false;
-        submitButton.value = "Play";
+        submitButton.value = "Start Game";
     }else{
+        //Store the session id in cookies and number of questions in local storage
+        const now = new Date();
+        const expireMilliseconds =  60 * 1000;
+        const expireDate = new Date(now.getTime() + expireMilliseconds);
+        console.log(expireDate);
+
+        document.cookie = `treasure-hunt-session=${data.session};expires=${expireDate.toUTCString()};`;
+
+        localStorage.setItem("treasure-hunt-number-of-questions", data.numOfQuestions);
         submitButton.disabled = false;
         submitButton.value = "Game is Starting!";
     }
@@ -136,10 +154,8 @@ const startTreasureHuntGame = async () => {
 };
 const resetForm = () => {
     player.value = "";
-    world.value = "";
-    selectedTreasureHunt = null;
     errorMsg.innerHTML = "";
     submitButton.disabled = false;
-    submitButton.value = "Play";
+    submitButton.value = "Start Game";
 };
 console.log(formData.isEmpty());
