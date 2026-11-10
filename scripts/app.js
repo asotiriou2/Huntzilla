@@ -1,6 +1,5 @@
-import {getSessionCookie, musicHandler} from "./util.js";
+import {getSessionCookie, musicHandler, fetchAvailableTreasureHunts, API_URL, APP_NAME} from "./util.js";
 
-const API_URL = "https://codecyprus.org/th/api";
 const startGameButton = document.getElementById("start-game");
 const gameNotStarted = document.getElementById("game-not-started");
 const gameStarted = document.getElementById("game-started");
@@ -9,7 +8,6 @@ const errorMsg = document.getElementById("error-message");
 const goBackButton = document.getElementById("go-back");
 const submitButton = document.getElementById("submit");
 const player = document.getElementById("player");
-const APP_NAME = "Huntzilla-Team-C";
 const part2Container = document.getElementById("part-2");
 const part1Container = document.getElementById("part-1");
 const treasureHuntSession = document.getElementById("treasure-hunt-session");
@@ -24,6 +22,7 @@ const treasureHuntForm = document.getElementById("treasure-hunt-form");
 const session = getSessionCookie();
 // Session exists -> Redirect to question.html
 if (session && session.key === "treasure-hunt-session"){
+    console.log("session key exists directing you to the question page");
    location.href = "question.html";
 }else {
     // The  below line will show the start button, where when pressing it, it will show treasure hunts to choose
@@ -47,11 +46,11 @@ if (session && session.key === "treasure-hunt-session"){
         availableTreasureHunts = (await fetchAvailableTreasureHunts()).treasureHunts;
         startGameButton.disabled = false;
         startGameButton.innerText = "START";
-        gameNotStarted.ariaHidden = "true"
+
+        gameNotStarted.ariaHidden = "true";
         gameStarted.ariaHidden = "false";
         treasureHuntForm.ariaHidden = "false";
         part1Container.ariaHidden = "false";
-        part2Container.ariaHidden = "true";
 
         // Empty the list: Go Back button created which doesn't refresh the page
         treasureHuntsList.innerHTML = "";
@@ -114,18 +113,10 @@ if (session && session.key === "treasure-hunt-session"){
         submitButton.disabled = true;
         event.target.value = "Loading..."
         await startTreasureHuntGame();
-        questionLogic();
     });
 
 
-    goBackButton.addEventListener("click", (event) => {
-        part1Container.ariaHidden = "false";
-        part2Container.ariaHidden = "true";
-    });
-    const fetchAvailableTreasureHunts = async () => {
-        const response = await fetch(`${API_URL}/list`);
-        return await response.json();
-    };
+
     const startTreasureHuntGame = async () => {
         if (formData.isEmpty()) return;
 
@@ -137,11 +128,13 @@ if (session && session.key === "treasure-hunt-session"){
         console.log(data);
         if (data.status === "ERROR") {
             errorMsg.ariaHidden = "false";
-            errorMsg.innerHTML = data.errorMessages[0];
+            errorMsg.innerHTML = data.errorMessages;
             submitButton.disabled = false;
             submitButton.value = "Start Game";
         } else {
             //Store the session id in cookies and number of questions in local storage
+            // We set an expire date which is more than enough in our case 2 hours. The session lasts about 30 minutes
+            // Even if it still exists in the cookies the api will not accept is as a valid session id
             const now = new Date();
             const expireMilliseconds = 2 * 60 * 60 * 1000;
             const expireDate = new Date(now.getTime() + expireMilliseconds);
@@ -152,7 +145,9 @@ if (session && session.key === "treasure-hunt-session"){
             localStorage.setItem("treasure-hunt-number-of-questions", data.numOfQuestions);
             submitButton.disabled = false;
             submitButton.value = "Starting...";
-            location.reload();
+            // We know that we have a valid session
+            // Redirect to the question html site which will handle the next part of the application
+            location.href = "question.html";
         }
 
     };
@@ -162,5 +157,11 @@ if (session && session.key === "treasure-hunt-session"){
         submitButton.disabled = false;
         submitButton.value = "Start Game";
     };
+    goBackButton.addEventListener("click", (event) => {
+        part1Container.ariaHidden = "false";
+        part2Container.ariaHidden = "true";
+    });
 }
+
+
 musicHandler();

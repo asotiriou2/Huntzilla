@@ -25,6 +25,11 @@ export const getSessionCookie = () => {
  */
 export const API_URL = "https://codecyprus.org/th/api";
 
+/**
+ * App name constant
+ * @type {string}
+ */
+export const APP_NAME = "Huntzilla-Team-C";
 
 /**
  * Handles the app.html music
@@ -45,3 +50,11 @@ export const musicHandler = () => {
         });
     }
 }
+/**
+ * Makes a request to the api and returns all the available treasure hunts
+ * @returns {Promise<any>}
+ */
+export const fetchAvailableTreasureHunts = async () => {
+    const response = await fetch(`${API_URL}/list`);
+    return await response.json();
+};

@@ -25,7 +25,7 @@ const fetchNextQuestion = async (sessionId) => {
     return await response.json();
 }
 
-
+console.log("Welcome to the question page");
 const sessionCookie = getSessionCookie();
 // If redirected from app.html the below code is not necessary, because it's already checked in app.html
 // The reason we also add it here is people might access the question.html directly.
