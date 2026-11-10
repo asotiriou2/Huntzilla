@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>App</title>
+    <link rel="stylesheet" href="css/app.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bahiana&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li class="menu-option" id="logo">
+                    <h1>Huntzilla</h1>
+                </li>
+                <li class="menu-option">
+                    <a href="index.html">Home</a>
+                </li>
+                <li class="menu-option">
+                    <a href="/">Leaderboard</a>
+                </li>
+                <li class="menu-option">
+                    <a id="music-button" href="#">Music (Off)</a>
+                </li>
+                <audio id="jingle" loop>
+                    <source src="media/jingle.mp3" type="audio/mpeg">
+                </audio>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <div id="game-started" class="game-container" aria-hidden="true">
+            <div id="breadcrumb">
+                <img src="media/logo2.png" alt="Huntzilla Logo"/>
+            </div>
+            <div id="question-panel" aria-hidden="true">
+                <div id="question-box">
+                    <h3>Question</h3>
+                    <p id="question"></p>
+                </div>
+                <div id="answer-choices">
+                    <div id="boolean-answer">
+                        <button id="true">True</button>
+                        <button id="false">False</button>
+                    </div>
+                    <div id="integer-answer">
+                        <label for="integer">Answer</label>
+                        <input type="number" name="integer" id="integer" required min="-100" max="100" step="1"/>
+                    </div>
+                    <div id="numeric-answer">
+                        <label for="numeric">Answer</label>
+                        <input type="number" id="numeric" name="numeric" min="-100.0" max="100.0" required step="0.1"/>
+                    </div>
+                    <div id="mcq-answer">
+
+                    </div>
+                    <div id="text-answer">
+                        <label for="input">Answer</label>
+                        <input type="text" id="input" name="input"/>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script type="module" src="scripts/question.js"></script>
+</body>
+</html>
