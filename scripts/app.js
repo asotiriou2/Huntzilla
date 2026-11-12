@@ -10,7 +10,6 @@ const submitButton = document.getElementById("submit");
 const player = document.getElementById("player");
 const part2Container = document.getElementById("part-2");
 const part1Container = document.getElementById("part-1");
-const treasureHuntSession = document.getElementById("treasure-hunt-session");
 const treasureHuntForm = document.getElementById("treasure-hunt-form");
 
 
@@ -18,6 +17,8 @@ const treasureHuntForm = document.getElementById("treasure-hunt-form");
 // 1. We have to check if a session is stored in the cookies
 //    a) If exists then redirect without any additional checks to the question.html page
 //    b) If it doesn't exist, we stay in app.html, and we show the default page(choose a treasure hunt + add player name)
+
+let appState = "GameNotStarted";
 
 const session = getSessionCookie();
 // Session exists -> Redirect to question.html
@@ -51,6 +52,9 @@ if (session && session.key === "treasure-hunt-session"){
         gameStarted.ariaHidden = "false";
         treasureHuntForm.ariaHidden = "false";
         part1Container.ariaHidden = "false";
+        goBackButton.ariaHidden = "false";
+
+        appState = "GameStarted";
 
         // Empty the list: Go Back button created which doesn't refresh the page
         treasureHuntsList.innerHTML = "";
@@ -90,6 +94,7 @@ if (session && session.key === "treasure-hunt-session"){
                 goBackButton.ariaHidden = "false";
                 part2Container.ariaHidden = "false";
                 part1Container.ariaHidden = "true";
+                appState = "TreasureHuntSelected";
             })
         }
     });
@@ -158,8 +163,17 @@ if (session && session.key === "treasure-hunt-session"){
         submitButton.value = "Start Game";
     };
     goBackButton.addEventListener("click", (event) => {
-        part1Container.ariaHidden = "false";
-        part2Container.ariaHidden = "true";
+        if (appState === "GameStarted"){
+            appState = "GameNotStarted";
+            goBackButton.ariaHidden = "true";
+            gameStarted.ariaHidden = "true";
+            gameNotStarted.ariaHidden = "false";
+        }else if (appState === "TreasureHuntSelected"){
+            part1Container.ariaHidden = "false";
+            part2Container.ariaHidden = "true";
+            appState = "GameStarted";
+        }
+
     });
 }
 
