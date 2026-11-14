@@ -43,34 +43,55 @@
                 </div>
                 <div id="answer-choices">
                     <div id="boolean-answer" aria-hidden="true">
-                        <button id="true" value="true">True</button>
-                        <button id="false" value="false">False</button>
+                        <p>Select True or False:</p>
+                        <div class="buttons">
+                            <button id="true" value="true">True</button>
+                            <button id="false" value="false">False</button>
+                        </div>
+
                     </div>
                     <div id="integer-answer" aria-hidden="true">
-                        <label for="integer">Answer:</label>
-                        <input type="number" name="integer" id="integer" required min="-100" max="100" step="1"/>
+                        <label for="integer">Type your answer in the box below</label>
+                        <input type="number" name="integer" id="integer" required min="-100" max="100" step="1" placeholder="Enter your answer here..."/>
                     </div>
                     <div id="numeric-answer" aria-hidden="true">
-                        <label for="numeric">Answer:</label>
-                        <input type="number" id="numeric" name="numeric" min="-100.0" max="100.0" required step="0.1"/>
+                        <label for="numeric">Type your answer in the box below:</label>
+                        <input type="number" id="numeric" name="numeric" min="-100.0" max="100.0" required step="0.1" placeholder="Enter your answer here..."/>
                     </div>
                     <div id="mcq-answer" aria-hidden="true">
-                        <button id="a" value="A">A</button>
-                        <button id="b" value="B">B</button>
-                        <button id="c" value="C">C</button>
-                        <button id="d" value="D">D</button>
+                        <p>Select one option below:</p>
+                        <div class="buttons">
+                            <button id="a" value="A">A</button>
+                            <button id="b" value="B">B</button>
+                            <button id="c" value="C">C</button>
+                            <button id="d" value="D">D</button>
+                        </div>
+
                     </div>
                     <div id="text-answer" aria-hidden="true">
-                        <label for="input">Answer:</label>
-                        <input type="text" id="input" name="input"/>
+                        <label for="input">Type your answer in the box below:</label>
+                        <input type="text" id="input" name="input" placeholder="Enter your answer here..."/>
                     </div>
                 </div>
                 <div id="buttons">
                     <button id="submit-answer">Submit</button>
-                    <button id="skip">Skip</button>
                 </div>
                 <p id="error" aria-hidden="true"></p>
             </div>
+            <button id="skip" aria-hidden="true">
+                <span>Skip</span>
+                <svg fill="#000000" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                    <g id="SVGRepo_iconCarrier">
+                        <!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+                        <path
+                                d="M16.707,18.707a1,1,0,0,1-1.414-1.414L19.586,13H2a1,1,0,0,1,0-2H19.586L15.293,6.707a1,1,0,0,1,1.414-1.414l6,6a1,1,0,0,1,0,1.414Z"
+                        ></path>
+                    </g>
+                </svg>
+
+            </button>
         </div>
     </main>
 

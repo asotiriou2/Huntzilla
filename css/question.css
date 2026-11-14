@@ -8,10 +8,11 @@
     padding: 10px;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
     justify-content: flex-start;
     gap: 30px;
     margin-top: 150px;
+    width: 700px;
 }
 
 #question-box{
@@ -21,35 +22,56 @@
     align-items: center;
     justify-content: center;
     gap: 20px;
+    width: 100%;
 }
 #question{
-    font-size: 25px;
+    font-size: 20px;
     text-align: center;
+    color: #ffffff;
+}
+#question-box h3{
+    font-size: 25px;
+    margin-bottom: 100px;
 }
 #answer-choices{
-    margin-top: 100px;
+    margin-top: 10px;
+    width: 100%;
+}
+#boolean-answer .buttons,
+#mcq-answer .buttons{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-content: center;
+    justify-content: center;
+    gap: 15px;
 }
 #boolean-answer,
 #mcq-answer{
     display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    gap: 15px;
+    flex-direction: column;
+    gap: 20px;
+}
+#boolean-answer p,
+#mcq-answer p{
+    font-size: 17px;
 }
 #boolean-answer button,
 #mcq-answer button{
-    border: none;
-    background-color: #4680ff;
-    color: white;
-    font-size: 20px;
-    padding: 10px;
-    border-radius: 5px;
+    background-color: #ffffff;
+    color: black;
+    font-size: 18px;
+    padding: 15px;
+    border-radius: 10px;
     cursor: pointer;
+    border: none;
+    width: 100%;
 }
-#mcq-answer button{
-    padding: 10px 15px;
+
+#boolean-answer button[aria-selected="true"],
+#mcq-answer button[aria-selected="true"]{
+    background-color: #9ec4ff;
 }
+
 #integer-answer,
 #numeric-answer,
 #text-answer{
@@ -57,7 +79,8 @@
     flex-direction: column;
     align-items: flex-start;
     justify-content: center;
-    gap: 8px;
+    gap: 20px;
+    width: 100%;
 }
 #integer-answer[aria-hidden="true"],
 #numeric-answer[aria-hidden="true"],
@@ -69,19 +92,19 @@
 #integer-answer label,
 #numeric-answer label,
 #text-answer label{
-    font-size: 20px;
+    font-size: 17px;
 }
 #integer,
 #numeric,
 #input{
-    padding: 10px;
+    padding: 14px;
     box-shadow: none;
-    font-size: 18px;
-    min-width: 250px;
-    border: 1px solid white;
-    background-color: #4680ff;
-    border-radius: 5px;
-    color: white;
+    font-size: 16px;
+    border-radius: 15px;
+    color: black;
+    background-color: rgb(224 224 224);
+    min-width: 500px;
+    width: 100%;
 }
 
 #buttons{
@@ -90,17 +113,43 @@
     align-items: center;
     justify-content: center;
     gap: 30px;
+    width: 100%;
 }
-#submit-answer,
-#skip{
+#submit-answer{
     font-size: 20px;
-    padding: 10px;
-    background-color: #247732;
+    padding: 15px;
+    background-color: #493fe3;
     color: white;
     cursor: pointer;
-    border-radius: 5px;
+    border-radius: 10px;
     border: none;
     margin-top: 50px;
+    width: 300px;
+}
+#skip[aria-hidden="true"]{
+    display: none;
+}
+#skip{
+    position: absolute;
+    top: 130px;
+    right: 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 15px;
+    border: none;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #450096;
+    background-color: rgb(237 219 255);
+}
+
+#skip svg{
+    width: 14px;
+}
+#skip svg path {
+    stroke: #450096;
 }
 #error[aria-hidden="true"]{
    display: none;
@@ -108,6 +157,8 @@
 #error{
     font-size: 17px;
     color: red;
+    width: 100%;
+    text-align: center;
 }
 #score-container[aria-hidden="true"]{
     display: none;
@@ -133,8 +184,34 @@
     justify-content: center;
     border-radius: 50%;
     color: black;
-    background-color: #e1e1e1;
-    font-size: 17px;
+    background-color: #b2b2b2;
+    font-size: 20px;
     padding: 7px 12px;
     border: 2px solid #e1e1e1;
+    width: 40px;
+    height: 40px;
+}
+.question-number.correct{
+    padding: 5px;
+    background-color: green;
+    border: 2px solid white;
+    color: white;
+}
+.question-number.incorrect{
+    padding: 5px;
+    background-color: red;
+    border: 2px solid white;
+    color: white;
+}
+.question-number.skipped{
+    background-color: #d5d5d5;
+}
+.question-number.correct svg,
+.question-number.incorrect svg{
+    width: 23px;
+}
+.question-number.correct svg path,
+.question-number.incorrect svg path{
+    stroke: white;
+    stroke-width: 3px;
 }

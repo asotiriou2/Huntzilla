@@ -1,4 +1,4 @@
-import {getSessionCookie, API_URL, musicHandler, skipQuestion, numberOfQuestions} from "./util.js";
+import {getSessionCookie, API_URL, musicHandler, skipQuestion, numberOfQuestions, checkIcon, crossIcon} from "./util.js";
 
 const gameStarted = document.getElementById("game-started");
 const questionPanel = document.getElementById("question-panel");
@@ -14,6 +14,7 @@ const submitAnswerButton = document.getElementById("submit-answer");
 const error = document.getElementById("error");
 const skipButton = document.getElementById("skip");
 const scoreContainer = document.getElementById("score-container");
+const questionHeading = document.querySelector("#question-box h3");
 
 // Inputs
 const integerInput = document.getElementById("integer");
@@ -21,10 +22,14 @@ const numericInput = document.getElementById("numeric");
 const trueButton = document.getElementById("true");
 const falseButton = document.getElementById("false");
 const textInput = document.getElementById("input");
-
+const booleanButtons = document.querySelector("#boolean-answer .buttons");
+const mcqButtons = document.querySelector("#mcq-answer .buttons");
 
 let answer = "";
 let questionData;
+
+let booleanButtonSelected = "";
+let mcqButtonSelected = "";
 
 /**
  *
@@ -39,9 +44,7 @@ const fetchNextQuestion = async (sessionId) => {
 
     return await response.json();
 }
-const updateQuestionProgress = (questions) => {
 
-}
 console.log("Welcome to the question page");
 const sessionCookie = getSessionCookie();
 let questions = JSON.parse(localStorage.getItem("questions"));
@@ -62,24 +65,24 @@ if (!sessionCookie){
         div.innerHTML = (i+1).toString();
         div.dataset.questionIndex = i.toString();
         scoreContainer.appendChild(div);
-
+        if (questions[`question_${i}`] === true){
+            div.innerHTML = checkIcon;
+            div.classList.add("correct");
+            console.log("green")
+        }else if (questions[`question_${i}`] === false){
+            div.innerHTML = crossIcon;
+            div.classList.add("incorrect");
+            console.log("red");
+        }else if (questions[`question_${i}`] === "skipped"){
+            div.classList.add("skipped");
+        }
         console.log(questions["question_0"]);
         if (i < numberOfQuestions - 1){
             const span = document.createElement("span");
             span.dataset.questionIndex = i.toString();
             span.classList.add("progress-line");
             scoreContainer.appendChild(span);
-            if (questions[`question_${i}`] === true){
-                div.style.backgroundColor = "green";
-                div.style.border = "2px solid white";
-                div.style.color = "white";
-                console.log("green")
-            }else if (questions[`question_${i}`] === false){
-                div.style.backgroundColor = "red";
-                div.style.border = "1px solid white";
-                div.style.color = "white";
-                console.log("red");
-            }
+
         }
 
     }
@@ -91,16 +94,17 @@ if (!sessionCookie){
                 // Show the template HTML for the question
                 gameStarted.ariaHidden = "false";
                 questionPanel.ariaHidden = "false";
-                question.innerText = data.questionText;
+                question.innerHTML = data.questionText;
                 scoreContainer.ariaHidden = "false";
                 questionData = data;
-
-                let questions = localStorage.getItem("questions");
-                if(questions === null){
-                    questions = {};
-                }else{
-                    questions = JSON.parse(questions);
-                }
+                skipButton.ariaHidden = "false";
+                questionHeading.innerText = `Question ${data.currentQuestionIndex + 1} of ${numberOfQuestions}`;
+                // let questions = localStorage.getItem("questions");
+                // if(questions === null){
+                //     questions = {};
+                // }else{
+                //     questions = JSON.parse(questions);
+                // }
 
                 // questions[`question_${questionData.currentQuestionIndex}`] = "not_answered";
                 // localStorage.setItem("questions", JSON.stringify(questions));
@@ -111,14 +115,17 @@ if (!sessionCookie){
 
                 // Show answer option based on the type of question
                 if (data.questionType === "INTEGER"){
+                    integerInput.value = "";
                     integerAnswer.ariaHidden = "false";
                 }else if (data.questionType === "BOOLEAN"){
                     booleanAnswer.ariaHidden = "false";
                 }else if (data.questionType === "MCQ"){
                     multipleChoiceAnswer.ariaHidden = "false";
                 }else if (data.questionType === "TEXT"){
+                    textInput.value = "";
                     textAnswer.ariaHidden = "false";
                 }else if (data.questionType === "NUMERIC"){
+                    numericInput.value = "";
                     numericAnswer.ariaHidden = "false";
                 }
             }else if (data.status === "ERROR"){
@@ -195,20 +202,42 @@ if (!sessionCookie){
             return;
         }
         await skipQuestion(sessionCookie.value);
+        const questions = JSON.parse(localStorage.getItem("questions"));
+        questions[`question_${questionData.currentQuestionIndex}`] = "skipped";
+
+        localStorage.setItem("questions", JSON.stringify(questions));
+
         location.reload();
 
     })
-    for (const booleanButton of booleanAnswer.children){
+    for (const booleanButton of booleanButtons.children){
        booleanButton.addEventListener("click", (event) => {
-          booleanButton.style.border = "2px solid red";
-          console.log(booleanButton.value);
-          answer = event.target.value;
+           if (booleanButtonSelected !== event.target.value){
+               booleanButtonSelected = event.target.value;
+               booleanButton.ariaSelected = "true";
+               console.log(booleanButton.value);
+               answer = event.target.value;
+               for (const button of booleanButtons.children){
+                   if (button.value !== booleanButtonSelected){
+                       button.ariaSelected = "false";
+                   }
+               }
+           }
        });
     }
-    for (const multipleChoiceButton of multipleChoiceAnswer.children){
+    for (const multipleChoiceButton of mcqButtons.children){
         multipleChoiceButton.addEventListener("click", (event) => {
-           multipleChoiceButton.style.backgroundColor = "green";
-           answer = event.target.value;
+            if (mcqButtonSelected !== event.target.value){
+                answer = event.target.value;
+                mcqButtonSelected = event.target.value;
+                multipleChoiceButton.ariaSelected = "true";
+                for (const button of mcqButtons.children){
+                    if (button.value !== mcqButtonSelected){
+                        button.ariaSelected = "false";
+                    }
+                }
+            }
+
         })
     }
 }
