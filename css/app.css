@@ -105,6 +105,7 @@ main {
     min-width: 1500px;
     min-height: 1100px;
     border-radius: 15px;
+    position: relative;
 }
 #game-not-started[aria-hidden="true"],
 #game-started[aria-hidden="true"]{

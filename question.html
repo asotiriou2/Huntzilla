@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>App</title>
     <link rel="stylesheet" href="css/app.css"/>
+    <link rel="stylesheet" href="css/question.css" />
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Bahiana&display=swap" rel="stylesheet">
 </head>
@@ -34,33 +35,41 @@
             <div id="breadcrumb">
                 <img src="media/logo2.png" alt="Huntzilla Logo"/>
             </div>
+            <div id="score-container" aria-hidden="true"></div>
             <div id="question-panel" aria-hidden="true">
                 <div id="question-box">
                     <h3>Question</h3>
                     <p id="question"></p>
                 </div>
                 <div id="answer-choices">
-                    <div id="boolean-answer">
-                        <button id="true">True</button>
-                        <button id="false">False</button>
+                    <div id="boolean-answer" aria-hidden="true">
+                        <button id="true" value="true">True</button>
+                        <button id="false" value="false">False</button>
                     </div>
-                    <div id="integer-answer">
-                        <label for="integer">Answer</label>
+                    <div id="integer-answer" aria-hidden="true">
+                        <label for="integer">Answer:</label>
                         <input type="number" name="integer" id="integer" required min="-100" max="100" step="1"/>
                     </div>
-                    <div id="numeric-answer">
-                        <label for="numeric">Answer</label>
+                    <div id="numeric-answer" aria-hidden="true">
+                        <label for="numeric">Answer:</label>
                         <input type="number" id="numeric" name="numeric" min="-100.0" max="100.0" required step="0.1"/>
                     </div>
-                    <div id="mcq-answer">
-
+                    <div id="mcq-answer" aria-hidden="true">
+                        <button id="a" value="A">A</button>
+                        <button id="b" value="B">B</button>
+                        <button id="c" value="C">C</button>
+                        <button id="d" value="D">D</button>
                     </div>
-                    <div id="text-answer">
-                        <label for="input">Answer</label>
+                    <div id="text-answer" aria-hidden="true">
+                        <label for="input">Answer:</label>
                         <input type="text" id="input" name="input"/>
                     </div>
-
                 </div>
+                <div id="buttons">
+                    <button id="submit-answer">Submit</button>
+                    <button id="skip">Skip</button>
+                </div>
+                <p id="error" aria-hidden="true"></p>
             </div>
         </div>
     </main>

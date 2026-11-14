@@ -145,9 +145,15 @@ if (session && session.key === "treasure-hunt-session"){
             const expireDate = new Date(now.getTime() + expireMilliseconds);
             console.log(expireDate);
 
-            document.cookie = `treasure-hunt-session=${data.session};expires=${expireDate.toUTCString()};`;
+            document.cookie = `treasure-hunt-session=${data.session};expires=${expireDate.toUTCString()};path=/;`;
 
             localStorage.setItem("treasure-hunt-number-of-questions", data.numOfQuestions);
+            let questions = {};
+            for (let i=0; i<data.numOfQuestions; i++){
+                questions[`question_${i}`] = "not_answered";
+            }
+            localStorage.setItem("questions", JSON.stringify(questions));
+
             submitButton.disabled = false;
             submitButton.value = "Starting...";
             // We know that we have a valid session

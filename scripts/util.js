@@ -58,3 +58,20 @@ export const fetchAvailableTreasureHunts = async () => {
     const response = await fetch(`${API_URL}/list`);
     return await response.json();
 };
+
+/**
+ * Allows to skip a certain question if it can be skipped
+ * @param sessionId
+ * @returns {Promise<any>}
+ */
+export const skipQuestion = async (sessionId) => {
+    const response = await fetch(`${API_URL}/skip?session=${sessionId}`);
+
+    return await response.json();
+}
+
+/**
+ * Number of questions for the current treasure hunt
+ * @type {number}
+ */
+export const numberOfQuestions = Number.parseInt(localStorage.getItem("treasure-hunt-number-of-questions"));
