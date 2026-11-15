@@ -7,9 +7,10 @@
  * @returns {{key: string, value: string}|null}
  */
 export const getSessionCookie = () => {
-    for (const c of document.cookie.split(";")){
-        if (c.includes("treasure-hunt-session")){
-            const cookieArray = c.split("=");
+    for (let c of document.cookie.split(";")){
+        let cookie = c.trim();
+        if (cookie.includes("treasure-hunt-session")){
+            const cookieArray = cookie.split("=");
             return {
                 key: cookieArray[0] ,
                 value: cookieArray[1]
