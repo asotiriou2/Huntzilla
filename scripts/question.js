@@ -183,7 +183,6 @@ if (!sessionCookie){
             console.log(questionsStore);
             console.log(data);
             localStorage.setItem("questions", JSON.stringify(questionsStore));
-            alert(JSON.stringify(data));
             location.reload();
 
         }else if (data.status === "ERROR"){

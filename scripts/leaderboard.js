@@ -1,5 +1,7 @@
 import {fetchAvailableTreasureHunts, getSessionCookie, API_URL} from "./util.js";
 const table = document.getElementById("leaderboard-table");
+const treasureHuntContainer = document.getElementById("treasure-hunts");
+const leaderboardHeading = document.querySelector("#leaderboard > h3");
 
 //If there is an available session load the leaderboard
 //Otherwise show treasure hunts for the user to pick
@@ -63,7 +65,50 @@ if (session && session.key && session.value){
             console.log(leaderboardData);
             console.log(Object.keys(leaderboardData.leaderboard[0]));
             buildTable(leaderboardData.leaderboard);
+            table.ariaHidden = "false";
+            leaderboardHeading.ariaHidden = "false";
         });
 }else{
     // Choose a treasure hunt to show the leaderboard
+    fetchAvailableTreasureHunts()
+        .then(data => {
+           console.log(data.treasureHunts);
+           for (const hunt of data.treasureHunts){
+               const huntButton = document.createElement("button");
+               huntButton.innerHTML = `
+               ${hunt.name}
+                <div class="loader" aria-hidden="true"></div> 
+               `;
+               treasureHuntContainer.appendChild(huntButton);
+               treasureHuntContainer.ariaHidden = "false";
+
+               huntButton.addEventListener("click", () => {
+                   // fetch using treasure-hunt-id
+                   huntButton.classList.add("loading");
+                   huntButton.innerHTML = `
+                   ${hunt.name}
+                    <div class="loader" aria-hidden="false"></div> 
+                   `;
+                   fetch(`${API_URL}/leaderboard?treasure-hunt-id=${hunt.uuid}&sorted&limit=100`)
+                       .then(res => res.json())
+                       .then(data => {
+                           leaderboardData = data;
+                           console.log(leaderboardData);
+                           if(!leaderboardData.leaderboard.length){
+                               alert("This treasure hunt has no leaderboard.");
+                               huntButton.classList.remove("loading");
+                               huntButton.innerHTML = `${hunt.name}`;
+                               return;
+                           }
+                           buildTable(leaderboardData.leaderboard);
+                           table.ariaHidden = "false";
+                           leaderboardHeading.ariaHidden = "false";
+                           treasureHuntContainer.ariaHidden = "true";
+                           huntButton.classList.remove("loading");
+                           huntButton.innerHTML = `${hunt.name}`;
+                       });
+
+               });
+           }
+        } );
 }
