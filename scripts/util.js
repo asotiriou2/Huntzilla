@@ -8,6 +8,7 @@
  */
 export const getSessionCookie = () => {
     for (let c of document.cookie.split(";")){
+        // The reason we trim is that when we split there could be whitespaces at the start and end of each cookie string
         let cookie = c.trim();
         if (cookie.includes("treasure-hunt-session")){
             const cookieArray = cookie.split("=");

@@ -64,4 +64,6 @@ if (session && session.key && session.value){
             console.log(Object.keys(leaderboardData.leaderboard[0]));
             buildTable(leaderboardData.leaderboard);
         });
+}else{
+    // Choose a treasure hunt to show the leaderboard
 }

@@ -67,8 +67,28 @@ if (session && session.key === "treasure-hunt-session"){
             button.type = "button";
             button.classList.add("treasure-hunt-button");
             button.dataset.treasureHunt = JSON.stringify(treasureHunt);
-            button.innerText = treasureHunt.name;
-            button.innerHTML = `${treasureHunt.name} 
+            // Starts and Ends
+            const today = new Date();
+            const startDate = new Date(treasureHunt.startsOn)
+            const endDate = new Date(treasureHunt.endsOn);
+            const startDateString = (startDate > today) ? `Starts On: ${startDate.toUTCString()}` : `Started On: ${startDate.toUTCString()}`;
+            const endDateString = (endDate < today) ? `Ended On: ${endDate.toUTCString()}` : `Ends On: ${endDate.toUTCString()}`;
+
+            if (startDate > today){
+                button.disabled = true;
+                button.title = "This treasure hunt has not started yet";
+            }else if (endDate < today){
+               button.disabled = true;
+               button.title = "This treasure hunt ended";
+            }
+            button.innerHTML = `
+                <div id="hunt">
+                    ${treasureHunt.name} 
+                </div>
+                <div id="date">
+                    <p id="start-date">${startDateString}</p>
+                    <p id="end-date">${endDateString}</p>
+                </div>
                 <svg id="submit-icon" viewBox="-0.5 0 7 7" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#000000">
                     <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
                     <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
@@ -84,7 +104,8 @@ if (session && session.key === "treasure-hunt-session"){
                             </g>
                         </g> 
                     </g>
-                </svg> `;
+                </svg>
+                `;
             listItem.appendChild(button);
 
             treasureHuntsList.appendChild(listItem);

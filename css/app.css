@@ -222,22 +222,43 @@ main {
 #game-started #treasure-hunts-list li .treasure-hunt-button{
     color: black;
     background-color: var(--button-bg);
-    border: white 2px solid;
+    /*border: white 2px solid;*/
+    border: none;
     font-size: 25px;
     cursor: pointer;
     width: 500px;
-    padding: 15px 0;
+    padding: 5px 15px;
     border-radius: 5px;
     /*transition: var(--button-transition);*/
     overflow-wrap: break-word;
     display: flex;
-    align-items: center;
-    justify-content: space-around;
+    flex-direction: column;
+    justify-content: center;
     transition: background-color 0.15s ease-in;
+    position: relative;
+    gap: 5px;
+
 }
-#game-started #treasure-hunts-list li .treasure-hunt-button:hover{
+#game-started #treasure-hunts-list li .treasure-hunt-button #hunt{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+#game-started #treasure-hunts-list li .treasure-hunt-button #date{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    font-size: 13px;
+}
+#game-started #treasure-hunts-list li .treasure-hunt-button:disabled{
+    cursor: default;
+    background-color: #939393;
+}
+#game-started #treasure-hunts-list li .treasure-hunt-button:not(:disabled):hover{
     background-color: var(--treasure-hunt-button-hover-bg);
 }
+
 /*#game.started #treasure-hunts-list li .treasure-hunt-button:hover{*/
 /*    background-color: var(--button-hover-bg);*/
 /*    color: white;*/
@@ -330,6 +351,10 @@ main {
     /*Style for icon*/
     width: 40px;
     height: 40px;
+    position: absolute;
+    top: 50%;
+    left: 85%;
+    transform: translate(-50%, -50%);
 }
 .treasure-hunt-button #submit-icon path{
     fill: green;
