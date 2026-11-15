@@ -1,0 +1,101 @@
+#leaderboard{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    box-shadow: 0 5px 10px rgb(60 60 60 / 0.49);
+    gap: 30px;
+    min-width: 1500px;
+    height: 1100px;
+    border-radius: 15px;
+    position: relative;
+    background-color: #111019;
+    color: white;
+    overflow: hidden;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 30px;
+}
+
+#leaderboard #breadcrumb{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    height: 100px;
+    background-color: #005E89;
+    position: relative;
+}
+
+#leaderboard #breadcrumb img{
+    width: 120px;
+    height: auto;
+}
+ #leaderboard-table{
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     justify-content: center;
+     color: white;
+     font-size: 18px;
+     max-width: 1200px;
+     max-height: 1100px;
+     margin-bottom: 50px;
+     overflow-y: scroll;
+     gap: 10px;
+ }
+ #leaderboard-table thead{
+     width: 100%;
+     padding: 5px;
+     border-radius: 15px;
+     border: 2px solid #2d73dc;
+ }
+ #leaderboard-table tbody{
+     width: 100%;
+     overflow-y: scroll;
+     display: flex;
+     flex-direction: column;
+     gap: 10px;
+ }
+ #leaderboard-table tr{
+     width: 100%;
+     display: grid;
+     grid-template-columns: 1fr 1fr 1fr;
+     padding: 12px;
+     border-radius: 10px;
+ }
+ #leaderboard-table tbody tr:nth-child(odd){
+     background-color: #29252D;
+ }
+#leaderboard-table tbody tr:nth-child(even){
+    background-color: #211F29;
+}
+#leaderboard-table td{
+    padding: 10px;
+    text-align: center;
+}
+#leaderboard-table thead tr td:first-child{
+    text-align: left;
+}
+#leaderboard-table tbody td.player{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+#leaderboard-table tbody td.player span:first-child{
+    background-color: #37323b;
+    padding: 7px 12px;
+    border-radius: 10px;
+}
+#leaderboard-table tbody td.player span.first{
+    color: gold;
+}
+#leaderboard-table tbody td.player span.second{
+    color: #ababab;
+}
+#leaderboard-table tbody td.player span.third{
+    color: #bb4d1b;
+}
