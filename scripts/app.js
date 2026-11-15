@@ -26,6 +26,7 @@ if (session && session.key === "treasure-hunt-session"){
     console.log("session key exists directing you to the question page");
    location.href = "question.html";
 }else {
+    console.log(session);
     // The  below line will show the start button, where when pressing it, it will show treasure hunts to choose
     gameNotStarted.ariaHidden = "false";
 
