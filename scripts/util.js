@@ -22,6 +22,16 @@ export const getSessionCookie = () => {
 }
 
 /**
+ * Returns the current score of the current session
+ * @param session
+ * @returns {Promise<any>}
+ */
+export const getPlayerScore = async (session) => {
+    const response = await fetch(`${API_URL}/score?session=${session}`);
+
+    return await response.json();
+}
+/**
  * The base url for the api
  * @type {string}
  */

@@ -1,12 +1,22 @@
-import {fetchAvailableTreasureHunts, getSessionCookie, API_URL} from "./util.js";
+import {fetchAvailableTreasureHunts, getSessionCookie, API_URL, getPlayerScore} from "./util.js";
 const table = document.getElementById("leaderboard-table");
 const treasureHuntContainer = document.getElementById("treasure-hunts");
 const leaderboardHeading = document.querySelector("#leaderboard > h3");
+const playerRank = document.getElementById("player-rank");
 
 //If there is an available session load the leaderboard
 //Otherwise show treasure hunts for the user to pick
 const session = getSessionCookie();
 let leaderboardData = "";
+let playerScore =  {
+    player: "",
+    score: -1,
+    completionTime: "",
+    rank: -1,
+    isEmpty(){
+       return (!this.player && this.score === -1 && !this.completionTime && this.rank === -1);
+    }
+};
 
 const buildTable = (leaderboard) => {
     const thead = document.createElement("thead");
@@ -20,7 +30,7 @@ const buildTable = (leaderboard) => {
     }
     thead.appendChild(trow);
     table.appendChild(thead);
-    for (let i=0; i<leaderboard.length; i++) {
+    for (let i=0; i<100; i++) {
         const brow = document.createElement("tr");
         for (let j=0; j<Object.values(leaderboard[i]).length; j++){
             const td = document.createElement("td");
@@ -58,7 +68,7 @@ const buildTable = (leaderboard) => {
     table.appendChild(tbody);
 }
 if (session && session.key && session.value){
-    fetch(`${API_URL}/leaderboard?session=${session.value}&sorted&limit=100`)
+    fetch(`${API_URL}/leaderboard?session=${session.value}&sorted`)
         .then(res => res.json())
         .then(data => {
             leaderboardData = data;
@@ -67,6 +77,38 @@ if (session && session.key && session.value){
             buildTable(leaderboardData.leaderboard);
             table.ariaHidden = "false";
             leaderboardHeading.ariaHidden = "false";
+            getPlayerScore(session.value)
+                .then(data => {
+                    playerScore.player = data.player;
+                    for (let i=0; i<leaderboardData.leaderboard.length; i++){
+                        console.log(leaderboardData.leaderboard[i]);
+                        if (leaderboardData.leaderboard[i].player === playerScore.player){
+                            playerScore.score = leaderboardData.leaderboard[i].score;
+                            playerScore.completionTime = leaderboardData.leaderboard[i].completionTime;
+                            playerScore.rank = i+1;
+                        }
+                    }
+
+                    if (!playerScore.isEmpty()){
+                        const bubble = document.createElement("div");
+                        bubble.classList.add("bubble");
+                        console.log(playerScore);
+                        playerRank.ariaHidden = "false";
+                        const rankContainer = document.createElement("div");
+                        rankContainer.innerHTML = playerScore.rank;
+                        bubble.appendChild(rankContainer);
+                        const playerContainer = document.createElement("div");
+                        playerContainer.innerHTML = playerScore.player;
+                        bubble.appendChild(playerContainer);
+                        const scoreContainer = document.createElement("div");
+                        scoreContainer.innerHTML = playerScore.score;
+                        bubble.appendChild(scoreContainer)
+                        const completionTimeContainer = document.createElement("div");
+                        completionTimeContainer.innerHTML = new Date(playerScore.completionTime).toUTCString();
+                        bubble.appendChild(completionTimeContainer);
+                        playerRank.appendChild(bubble);
+                    }
+                });
         });
 }else{
     // Choose a treasure hunt to show the leaderboard
@@ -89,7 +131,7 @@ if (session && session.key && session.value){
                    ${hunt.name}
                     <div class="loader" aria-hidden="false"></div> 
                    `;
-                   fetch(`${API_URL}/leaderboard?treasure-hunt-id=${hunt.uuid}&sorted&limit=100`)
+                   fetch(`${API_URL}/leaderboard?treasure-hunt-id=${hunt.uuid}&sorted`)
                        .then(res => res.json())
                        .then(data => {
                            leaderboardData = data;

@@ -34,7 +34,7 @@
     width: 120px;
     height: auto;
 }
- #leaderboard-table{
+#leaderboard-table{
      display: flex;
      flex-direction: column;
      align-items: center;
@@ -42,8 +42,7 @@
      color: white;
      font-size: 18px;
      max-width: 1200px;
-     max-height: 1100px;
-     margin-bottom: 50px;
+     /*max-height: 1100px;*/
      overflow-y: scroll;
      gap: 10px;
  }
@@ -84,6 +83,13 @@
     display: flex;
     align-items: center;
     gap: 20px;
+}
+#leaderboard-table tbody tr{
+    transition: border 0.15s ease-in;
+    border: 1px solid transparent;
+}
+#leaderboard-table tbody tr:hover{
+    border: 1px solid white;
 }
 #leaderboard-table tbody td.player span:first-child{
     background-color: #37323b;
@@ -155,4 +161,42 @@
     to{
         transform: translate(-50%, -50%) rotate(1turn);
     }
+}
+#leaderboard_score{
+    position: relative;
+    margin-bottom:50px;
+    max-height: 1100px;
+    overflow-y: scroll;
+}
+#player-rank{
+    width: 100%;
+    background-color: rgb(48 27 79);
+    position: sticky;
+    bottom: 0;
+    z-index: 10;
+    color: white;
+    padding: 10px;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    /*border-radius: 15px;*/
+    font-size: 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    transition: opacity 0.5s ease-in;
+}
+#player-rank[aria-hidden="false"]{
+    opacity: 1;
+}
+#player-rank[aria-hidden="true"]{
+    opacity: 0;
+}
+.bubble{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
 }
