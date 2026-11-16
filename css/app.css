@@ -394,3 +394,20 @@ main {
 #treasure-hunt-session[aria-hidden="true"]{
     display: none;
 }
+
+#music-button{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 20px;
+    display: flex;
+    align-items: center;
+}
+
+#music-button svg{
+    width: 30px;
+}
+#music-button svg path{
+    fill: #FFD700;
+    stroke: #005E89;
+}

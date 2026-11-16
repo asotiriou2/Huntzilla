@@ -1,4 +1,4 @@
-import {fetchAvailableTreasureHunts, getSessionCookie, API_URL, getPlayerScore} from "./util.js";
+import {fetchAvailableTreasureHunts, getSessionCookie, API_URL, getPlayerScore, musicHandler} from "./util.js";
 const table = document.getElementById("leaderboard-table");
 const treasureHuntContainer = document.getElementById("treasure-hunts");
 const leaderboardHeading = document.querySelector("#leaderboard > h3");
@@ -154,3 +154,5 @@ if (session && session.key && session.value){
            }
         } );
 }
+
+musicHandler();

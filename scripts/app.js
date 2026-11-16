@@ -12,7 +12,6 @@ const part2Container = document.getElementById("part-2");
 const part1Container = document.getElementById("part-1");
 const treasureHuntForm = document.getElementById("treasure-hunt-form");
 
-
 /* APP */
 // 1. We have to check if a session is stored in the cookies
 //    a) If exists then redirect without any additional checks to the question.html page
