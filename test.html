@@ -3,8 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <title>Test Page </title>
+    <link rel="stylesheet" href="./css/test.css">
+
 </head>
 <body>
-    <h1>This is the Testing Page</h1>
+    <h1 id="testpage">This is the Testing Page</h1>
+
+    <!-- Mini-game panel -->
+    <div id="mini-game-panel">
+        <h3>🎮 Pixel Runner</h3>
+        <canvas id="pixel-runner" width="480" height="200"></canvas>
+        <p id="pixel-runner-score">Score: 0 &nbsp;|&nbsp; Best: 0</p>
+        <p class="hint">Click / tap / press <kbd>Space</kbd> to jump</p>
+    </div>
+
+    <audio id="game-music" loop preload="auto">
+        <source src="media/pixel-runner-theme.mp3" type="audio/mpeg">
+    </audio>
 </body>
+<script src="./scripts/test.js"></script>
 </html>
