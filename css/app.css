@@ -445,7 +445,7 @@ main {
     height: 30px;
 }
 #hamburger img{
-    width: 80px;
+    width: 90px;
     grid-column: 2;
     justify-self: center;
 }
