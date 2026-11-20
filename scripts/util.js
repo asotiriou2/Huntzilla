@@ -131,3 +131,33 @@ export const crossIcon= `
     ></path>
     </g>
 </svg>`;
+
+/**
+ * Handles the hamburger button interaction
+ */
+export const hamburgerButtonHandler = () => {
+    const mobileMenuOverlay = document.getElementById("menu-overlay");
+    const hamburgerButton = document.getElementById("burger-button");
+    const closeHamburgerButton = document.getElementById("close-button");
+
+    let hamburgerOpen = false;
+
+    hamburgerButton.addEventListener("click", () => {
+        if(hamburgerOpen){
+            mobileMenuOverlay.ariaHidden = "true";
+            hamburgerOpen = false;
+            document.body.style.overflow = "auto";
+        }else{
+            mobileMenuOverlay.ariaHidden = "false";
+            hamburgerOpen = true;
+            document.body.style.overflow = "hidden";
+        }
+    });
+    closeHamburgerButton.addEventListener("click", () => {
+       if (hamburgerOpen) {
+           mobileMenuOverlay.ariaHidden = "true";
+           hamburgerOpen = false;
+           document.body.style.overflow = "auto";
+       }
+    });
+}

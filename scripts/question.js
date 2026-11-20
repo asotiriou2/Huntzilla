@@ -1,4 +1,4 @@
-import {getSessionCookie, API_URL, musicHandler, skipQuestion, numberOfQuestions, checkIcon, crossIcon} from "./util.js";
+import {getSessionCookie, API_URL, musicHandler, skipQuestion, numberOfQuestions, checkIcon, crossIcon, hamburgerButtonHandler} from "./util.js";
 
 const gameStarted = document.getElementById("game-started");
 const questionPanel = document.getElementById("question-panel");
@@ -59,6 +59,7 @@ console.log(questions);
 if (!sessionCookie){
     location.href = "app.html";
 }else{
+    hamburgerButtonHandler();
     for (let i=0; i<numberOfQuestions; i++){
         const div = document.createElement("div");
         div.classList.add("question-number");
@@ -176,6 +177,7 @@ if (!sessionCookie){
         const response = await fetch(ANSWER_URL);
         const data = await response.json();
         if (data.status === "OK"){
+            alert("Completed Treasure Hunt: " +data.completed);
             //Update local storage for the current question status
             const question_index = `question_${questionData.currentQuestionIndex}`;
             let questionsStore = JSON.parse(localStorage.getItem("questions"));
@@ -242,4 +244,4 @@ if (!sessionCookie){
 }
 
 
-musicHandler();
+// musicHandler();

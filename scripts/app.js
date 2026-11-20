@@ -1,4 +1,4 @@
-import {getSessionCookie, musicHandler, fetchAvailableTreasureHunts, API_URL, APP_NAME} from "./util.js";
+import {getSessionCookie, musicHandler, fetchAvailableTreasureHunts, API_URL, APP_NAME, hamburgerButtonHandler} from "./util.js";
 
 const startGameButton = document.getElementById("start-game");
 const gameNotStarted = document.getElementById("game-not-started");
@@ -25,6 +25,7 @@ if (session && session.key === "treasure-hunt-session"){
     console.log("session key exists directing you to the question page");
    location.href = "question.html";
 }else {
+    hamburgerButtonHandler();
     console.log(session);
     // The  below line will show the start button, where when pressing it, it will show treasure hunts to choose
     gameNotStarted.ariaHidden = "false";
@@ -205,4 +206,4 @@ if (session && session.key === "treasure-hunt-session"){
 }
 
 
-musicHandler();
+// musicHandler();
