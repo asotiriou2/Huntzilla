@@ -177,7 +177,14 @@ if (!sessionCookie){
         const response = await fetch(ANSWER_URL);
         const data = await response.json();
         if (data.status === "OK"){
-            alert("Completed Treasure Hunt: " +data.completed);
+            if (data.completed){
+                // Completed the treasure hunt
+                // Redirect to leaderboard
+                // Remove session from cookie
+                document.cookie = "treasure-hunt-session=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+                location.href = "leaderboard.html";
+                return;
+            }
             //Update local storage for the current question status
             const question_index = `question_${questionData.currentQuestionIndex}`;
             let questionsStore = JSON.parse(localStorage.getItem("questions"));
