@@ -505,34 +505,54 @@ main {
 
 /*Media Queries*/
 @media screen and (max-width: 1700px){
-    #game-started{
+    #game-started,
+    #game-not-started{
         max-width: 1350px;
         max-height: 1000px;
     }
 }
 @media screen and (max-width: 1500px){
-    #game-started{
+    #game-started,
+    #game-not-started{
         max-width: 1250px;
         max-height: 900px;
     }
 }
 
 @media screen and (max-width: 1350px){
-    #game-started{
+    #game-started,
+    #game-not-started{
         max-width: 1100px;
         max-height: 900px;
     }
+    #logozilla{
+        height: 300px;
+    }
+    #start-game{
+        padding: 15px;
+    }
+    #game-not-started h2{
+        font-size: 30px;
+    }
 }
 @media screen and (max-width: 1150px){
-    #game-started{
+    #game-started,
+    #game-not-started{
         max-width: 1000px;
         max-height: 800px;
     }
+    #logozilla{
+        height: 250px;
+    }
 }
 @media screen and (max-width: 1050px){
-    #game-started{
+    #game-started,
+    #game-not-started{
         max-width: 900px;
         max-height: 700px;
+    }
+    #logozilla{
+        height: 200px;
     }
     #game-started #breadcrumb img {
         width: 100px;
@@ -540,15 +560,35 @@ main {
     #game-started #breadcrumb{
         height: 80px;
     }
+    #start-game{
+        padding: 10px;
+        min-width: 150px;
+    }
+    #game-not-started h2{
+        font-size: 25px;
+    }
 }
 
 @media screen and (max-width: 950px){
-    #game-started{
+    #game-started,
+    #game-not-started{
         max-width: 800px;
         max-height: 650px;
     }
+    #logozilla{
+        height: 175px;
+    }
 }
 @media screen and (max-width: 840px){
+    #game-started,
+    #game-not-started{
+        max-width: 750px;
+        max-height: 600px;
+    }
+    #game-started,
+    #game-not-started{
+        box-shadow: none;
+    }
     header{
         height: 85px;
     }
@@ -569,4 +609,16 @@ main {
    header #hamburger{
       padding: 10px;
    }
+}
+@media screen and (max-width: 550px){
+    #logozilla{
+        height: 150px;
+    }
+    #game-not-started h2{
+        font-size: 20px;
+    }
+    #start-game{
+        padding: 8px;
+        font-size: 18px;
+    }
 }
