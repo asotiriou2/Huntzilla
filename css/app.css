@@ -215,15 +215,24 @@ main {
 #game-started #info{
     margin-top: 50px;
     font-size: 25px;
+    text-align: center;
 }
 #game-started #treasure-hunts-list{
     list-style: none;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     justify-content: flex-start;
     gap: 30px;
     margin-top: 30px;
+    max-width: 500px;
+    width: 100%;
+}
+#game-started #treasure-hunts-list li{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 #game-started #treasure-hunts-list li .treasure-hunt-button{
     color: black;
@@ -232,7 +241,7 @@ main {
     border: none;
     font-size: 25px;
     cursor: pointer;
-    width: 500px;
+    width: 100%;
     padding: 5px 15px;
     border-radius: 5px;
     /*transition: var(--button-transition);*/
@@ -317,6 +326,9 @@ main {
     align-items: center;
     justify-content: flex-start;
     gap: 15px;
+}
+#game-started #treasure-hunt-form #part-1{
+    padding: 10px;
 }
 #game-started #treasure-hunt-form #part-2{
     margin-top: 50px;
@@ -567,6 +579,9 @@ main {
     #game-not-started h2{
         font-size: 25px;
     }
+    #go-back{
+        top: 100px !important;
+    }
 }
 
 @media screen and (max-width: 950px){
@@ -577,6 +592,9 @@ main {
     }
     #logozilla{
         height: 175px;
+    }
+    #game-started #treasure-hunt-form{
+        margin-top: 100px;
     }
 }
 @media screen and (max-width: 840px){
@@ -599,6 +617,9 @@ main {
         display: grid;
         grid-template-columns: 1fr 1fr 1fr;
     }
+    #game-started #treasure-hunt-form{
+        margin-top: 75px;
+    }
     /*#mobile-menu{*/
     /*    display: flex;*/
     /*    flex-direction: column;*/
@@ -610,6 +631,36 @@ main {
       padding: 10px;
    }
 }
+@media screen and (max-width: 780px){
+    #game-started{
+        max-width: 700px;
+        max-height: 550px;
+    }
+    #game-started .treasure-hunt-button{
+        padding: 5px 10px;
+        max-width: 85%;
+    }
+    #game-started .treasure-hunt-button #hunt{
+        font-size: 20px;
+    }
+    #game-started .treasure-hunt-button #submit-icon{
+        width: 30px;
+    }
+    #go-back{
+        font-size: 15px !important;
+    }
+}
+@media screen and (max-width: 720px){
+    #game-started{
+        max-width: 95%;
+    }
+}
+@media screen and (max-width: 600px){
+    #part-1 #info{
+        font-size: 22px;
+        word-break: break-all;
+    }
+}
 @media screen and (max-width: 550px){
     #logozilla{
         height: 150px;
@@ -620,5 +671,30 @@ main {
     #start-game{
         padding: 8px;
         font-size: 18px;
+    }
+    #part-1 #info{
+        font-size: 18px;
+    }
+    #game-started #treasure-hunt-form #part-1 .treasure-hunt-button{
+        padding: 5px 5px;
+    }
+    #game-started #treasure-hunt-form #part-2 #player{
+        max-width: 250px;
+        width: 100%;
+    }
+    #game-started #treasure-hunt-form #part-2 #submit{
+       font-size: 18px;
+        padding: 15px;
+        max-width: 150px;
+        width: 100%;
+    }
+}
+@media screen and (max-width: 400px){
+    #game-started #treasure-hunt-form #part-1 .treasure-hunt-button #hunt{
+       font-size: 19px;
+    }
+    #game-started #treasure-hunt-form #part-1 .treasure-hunt-button #submit-icon{
+        width: 24px;
+        left: 95%;
     }
 }

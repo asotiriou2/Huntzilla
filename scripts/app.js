@@ -71,8 +71,8 @@ if (session && session.key === "treasure-hunt-session"){
             const today = new Date();
             const startDate = new Date(treasureHunt.startsOn)
             const endDate = new Date(treasureHunt.endsOn);
-            const startDateString = (startDate > today) ? `Starts On: ${startDate.toUTCString()}` : `Started On: ${startDate.toUTCString()}`;
-            const endDateString = (endDate < today) ? `Ended On: ${endDate.toUTCString()}` : `Ends On: ${endDate.toUTCString()}`;
+            const startDateString = (startDate > today) ? `Starts On: ${startDate.toLocaleString()}` : `Started On: ${startDate.toLocaleString()}`;
+            const endDateString = (endDate < today) ? `Ended On: ${endDate.toLocaleString()}` : `Ends On: ${endDate.toLocaleString()}`;
 
             if (startDate > today){
                 button.disabled = true;
