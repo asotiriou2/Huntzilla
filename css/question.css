@@ -12,7 +12,7 @@
     justify-content: flex-start;
     gap: 30px;
     margin-top: 150px;
-    width: 700px;
+    max-width: 700px;
 }
 
 #question-box{
@@ -216,16 +216,12 @@
     stroke-width: 3px;
 }
 @media screen and (max-width: 1150px){
-    #score-container,
-    #skip{
-        top: 100px;
-    }
+
     #question-panel{
         margin-top: 100px;
     }
 }
 @media screen and (max-width: 1050px){
-
     #question-panel{
         margin-top: 70px;
         align-items: center;
@@ -271,8 +267,24 @@
     #score-container,
     #skip{
         top: 100px;
-        padding: 7px;
         font-size: 14px;
         border-radius: 12px;
+    }
+}
+@media screen and (max-width: 780px){
+    /*#score-container,*/
+    /*#skip{*/
+    /*    top: 80px;*/
+    /*}*/
+}
+@media screen and (max-width: 600px){
+    #game-started #progress-line{
+        width: 20px;
+    }
+    #game-started #skip{
+        padding: 5px;
+    }
+    #question-box h3{
+        margin-bottom: 30px;
     }
 }
