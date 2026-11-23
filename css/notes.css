@@ -96,8 +96,8 @@ main{
 #nav-box{
     /*Spacing*/
     justify-content: center;
-    padding-left: 160px;
-    padding-right: 50px ;
+    align-items: center;
+    display: flex;
     /*Cosmetics*/
 
 }
