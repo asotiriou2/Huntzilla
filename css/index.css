@@ -42,10 +42,11 @@ main{
     justify-content: flex-start;
     align-items: center;
     position: relative;
-    background-image: url("../media/Teal Pixel City Banner with Yellow Streaks.png");
+    background-image: url("../media/try100.png");
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
+    padding-bottom: 300px;
 }
 
 /*#welcome{*/
@@ -133,23 +134,6 @@ main{
     transform: rotate(90deg);
 }
 
-#Team-C{
-    text-align: left;
-    padding: 10px 20px;
-    margin: 0;
-    color: #00F1F3;
-    text-shadow: black 2px 2px 2px;
-
-}
-
-#virus{
-    text-align: left;
-    padding: 10px 20px;
-    margin: 0;
-    color: #ffffff;
-    font-size: 12px;
-    text-shadow: black 2px 2px 2px;
-}
 
 #socials{
     color: #00F1F3;
@@ -175,13 +159,21 @@ footer{
     display: flex;
     height: 700px;
     flex-direction: row;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
     background-color: #030315;
     color: black;
     padding: 20px;
     font-size: 17px;
+}
 
+.left-footer{
+    justify-content: space-between;
+    align-items: flex-start;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    color: #00F1F3;
 }
 
 /*.left-footer {*/
