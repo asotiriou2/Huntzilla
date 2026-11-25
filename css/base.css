@@ -1,0 +1,404 @@
+/* New redesign base css.
+   matching the styles saved from figma. - PLEASE READ THE COMMENTSSS */
+
+:root {
+  /* Surfaces and text */
+  --bg: #FFFFFF;          /* page */
+  --surface: #FFFFFF;     /* inputs, floating panels */
+  --fill: #F4F5F6;        /* the grey for the cards */
+  --fill-2: #EBEDEF;      /* hover / pressed on --fill */
+  --line: rgba(11, 11, 12, .09);
+  --line-2: rgba(11, 11, 12, .18);
+  --text: #0B0B0C;
+  --text-dim: rgba(11, 11, 12, .70);
+  --text-faint: rgba(11, 11, 12, .58);
+
+  /* Colours from the Huntzilla logo (#FECF03 to #FEB502),
+     lime green lettering (#4DF606), near-black background and outlines, blue spikes (#00B1F5). */
+  --brand: #39C600;       /* logo green, a touch deeper: bars, dots, map trail (decoration only) */
+  --btn: #FECF03;         /* logo yellow, button fill: black text 13:1 */
+  --btn-hover: #FEB502;   /* the orange-gold at the bottom of the lettering */
+  --on-brand: #0B0B0C;    /* black text on yellow, like the logo outline */
+  --accent: #1B7A00;      /* logo green darkened for text and links: 5.4:1 on white */
+  --accent-soft: rgba(77, 246, 6, .14);
+  --hz-dark: #111214;     /* the logo's near-black background, for dark bands */
+  --hz-blue: #0077A8;     /* the spike blue darkened enough for white text */
+
+  /* Logo colours: the yellow and green of the HUNTZILLA lettering. */
+  --hz-yellow: #FFD700;
+  --hz-yellow-soft: #FFF6C2;
+  --hz-yellow-ink: #B07A00;  /* the yellow, darkened enough to read on white (large text) */
+  --hz-green: #26D51B;
+  --hz-green-ink: #1E9A16;   /* the green, darkened enough to read on white (large text) */
+  --display: "Arial Black", Arial, Helvetica, sans-serif;   /* heavy lettering, like the logo */
+
+  /* Status (all 4.5:1 or better on white) */
+  --good: #15803D;
+  --bad: #C42B2B;
+  --warn: #A16207;
+  --warn-soft: #FEF3C7;
+
+  /* Old names kept as aliases so nothing that still uses them breaks */
+  --blue: var(--brand);
+  --ivory: var(--bg);
+  --black: var(--text);
+
+  --sans: Arial, Helvetica, sans-serif;
+  --mono: Arial, Helvetica, sans-serif;   /* small labels and numbers */
+  --font: var(--sans);
+
+  /* 8 px spacing grid */
+  --s1: 8px;  --s2: 16px; --s3: 24px; --s4: 32px;
+  --s5: 40px; --s6: 48px; --s8: 64px; --s10: 80px;
+
+  --radius: 10px;
+  --radius-lg: 14px;
+  --corner: var(--radius);
+  --corner-lg: var(--radius-lg);
+  --tap: 44px;
+  --page-max: 1120px;
+  --gutter: 16px;
+}
+
+@media (min-width: 768px) { :root { --gutter: 32px; } }
+
+*, *::before, *::after { box-sizing: border-box; }
+html { }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 400 1rem/1.6 var(--sans);
+}
+
+img, svg { display: block; max-width: 100%; }
+a { color: inherit; }
+
+:focus { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+/* Dashboard label: small mono caps */
+.label, .eyebrow {
+  font: 500 11px/1.5 var(--mono);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+.num { font-family: var(--mono); }
+
+.skip-link {
+  position: absolute;
+  left: var(--s2);
+  top: -100px;
+  z-index: 100;
+  padding: var(--s1) var(--s2);
+  background: var(--text);
+  color: var(--surface);
+  border-radius: var(--radius);
+}
+.skip-link:focus { top: var(--s2); }
+
+.container {
+  width: 100%;
+  max-width: calc(var(--page-max) + 2 * var(--gutter));
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* Buttons: one primary (logo yellow), one outline, one quiet text link */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s1);
+  min-height: var(--tap);
+  padding: 0 18px;
+  border: 0;
+  border-radius: var(--radius);
+  background: var(--btn);
+  color: var(--on-brand);
+  font: 600 15px/1.2 var(--sans);
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.btn:hover { background: var(--btn-hover); }
+.btn .arrow { }
+.btn:hover .arrow { transform: translateX(3px); }
+.btn-light { background: var(--fill); color: var(--text); }
+.btn-light:hover { background: var(--fill-2); }
+.btn[hidden] { display: none; }
+.btn-lg { min-height: 48px; padding: 0 22px; font-size: 15px; }
+
+.text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: var(--tap);
+  color: var(--accent);
+  font-weight: 500;
+  text-decoration: none;
+}
+.text-link:hover { text-decoration: underline; text-underline-offset: 4px; }
+.text-link svg { width: 16px; height: 16px; }
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  overflow: hidden; clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+
+/* Huntzilla wordmark: the mascot badge plus "Hunt" in the logo's yellow and "zilla" in its green */
+.wordmark {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font: 400 1.5rem/1 var(--display);
+  letter-spacing: .01em;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.wordmark img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px var(--hz-yellow);
+}
+.wordmark .wm-a { color: var(--hz-yellow-ink); }
+.wordmark .wm-b { color: var(--hz-green-ink); }
+.wordmark--sm { font-size: 1.25rem; }
+.wordmark--sm img { width: 28px; height: 28px; }
+.wordmark--lg { font-size: 2.5rem; }
+.wordmark--on-dark .wm-a { color: var(--hz-yellow); }
+.wordmark--on-dark .wm-b { color: var(--hz-green); }
+.brand, .bar-logo, .gh-logo { text-decoration: none; }
+
+/* =========================================================
+   Huntzilla brand: was used on every page (home, story, testing, game)
+   Kept simple: logo colours, the logo-style lettering for headings,
+   and a night-black bar at the top of every page.
+   ========================================================= */
+:root {
+  --night: #07070D;       /* the logo's background */
+  --night-2: #030315;     /* the original Huntzilla footer */
+  --on-night: #FFFFFF;
+  --on-night-dim: rgba(255, 255, 255, .72);
+}
+
+/* Headings in the logo-style lettering */
+h1, h2,
+.card h3, .feature-cta h3, .end-card h1, .dialog h2 {/* QLUE shared foundations: light, minimal, dashboard-style.
+   Plain CSS, no frameworks. Every page loads this file first. */
+
+:root {
+  /* Surfaces and text */
+  --bg: #FFFFFF;          /* page */
+  --surface: #FFFFFF;     /* inputs, floating panels */
+  --fill: #F4F5F6;        /* quiet grey for cards: separates without a border */
+  --fill-2: #EBEDEF;      /* hover / pressed on --fill */
+  --line: rgba(11, 11, 12, .09);
+  --line-2: rgba(11, 11, 12, .18);
+  --text: #0B0B0C;
+  --text-dim: rgba(11, 11, 12, .70);
+  --text-faint: rgba(11, 11, 12, .58);
+
+  /* Colours sampled from the Huntzilla logo: yellow-gold lettering (#FECF03 to #FEB502),
+     lime green lettering (#4DF606), near-black background and outlines, blue spikes (#00B1F5). */
+  --brand: #39C600;       /* logo green, a touch deeper: bars, dots, map trail (decoration only) */
+  --btn: #FECF03;         /* logo yellow, button fill: black text 13:1 */
+  --btn-hover: #FEB502;   /* the orange-gold at the bottom of the lettering */
+  --on-brand: #0B0B0C;    /* black text on yellow, like the logo outline */
+  --accent: #1B7A00;      /* logo green darkened for text and links: 5.4:1 on white */
+  --accent-soft: rgba(77, 246, 6, .14);
+  --hz-dark: #111214;     /* the logo's near-black background, for dark bands */
+  --hz-blue: #0077A8;     /* the spike blue darkened enough for white text */
+
+  /* Logo colours: the yellow and green of the HUNTZILLA lettering. Used for the wordmark and small highlights. */
+  --hz-yellow: #FFD700;
+  --hz-yellow-soft: #FFF6C2;
+  --hz-yellow-ink: #B07A00;  /* the yellow, darkened enough to read on white (large text) */
+  --hz-green: #26D51B;
+  --hz-green-ink: #1E9A16;   /* the green, darkened enough to read on white (large text) */
+  --display: "Arial Black", Arial, Helvetica, sans-serif;   /* heavy lettering, like the logo */
+
+  /* Status (all 4.5:1 or better on white) */
+  --good: #15803D;
+  --bad: #C42B2B;
+  --warn: #A16207;
+  --warn-soft: #FEF3C7;
+
+  /* Old names kept as aliases so nothing that still uses them breaks */
+  --blue: var(--brand);
+  --ivory: var(--bg);
+  --black: var(--text);
+
+  --sans: Arial, Helvetica, sans-serif;
+  --mono: Arial, Helvetica, sans-serif;   /* small labels and numbers */
+  --font: var(--sans);
+
+  /* 8 px spacing grid */
+  --s1: 8px;  --s2: 16px; --s3: 24px; --s4: 32px;
+  --s5: 40px; --s6: 48px; --s8: 64px; --s10: 80px;
+
+  --radius: 10px;
+  --radius-lg: 14px;
+  --corner: var(--radius);
+  --corner-lg: var(--radius-lg);
+  --tap: 44px;
+  --page-max: 1120px;
+  --gutter: 16px;
+}
+
+@media (min-width: 768px) { :root { --gutter: 32px; } }
+
+*, *::before, *::after { box-sizing: border-box; }
+html { }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 400 1rem/1.6 var(--sans);
+}
+
+img, svg { display: block; max-width: 100%; }
+a { color: inherit; }
+
+:focus { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+/* Dashboard label: small mono caps */
+.label, .eyebrow {
+  font: 500 11px/1.5 var(--mono);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+.num { font-family: var(--mono); }
+
+.skip-link {
+  position: absolute;
+  left: var(--s2);
+  top: -100px;
+  z-index: 100;
+  padding: var(--s1) var(--s2);
+  background: var(--text);
+  color: var(--surface);
+  border-radius: var(--radius);
+}
+.skip-link:focus { top: var(--s2); }
+
+.container {
+  width: 100%;
+  max-width: calc(var(--page-max) + 2 * var(--gutter));
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* Buttons: one primary (logo yellow), one outline, one quiet text link */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s1);
+  min-height: var(--tap);
+  padding: 0 18px;
+  border: 0;
+  border-radius: var(--radius);
+  background: var(--btn);
+  color: var(--on-brand);
+  font: 600 15px/1.2 var(--sans);
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.btn:hover { background: var(--btn-hover); }
+.btn .arrow { }
+.btn:hover .arrow { transform: translateX(3px); }
+.btn-light { background: var(--fill); color: var(--text); }
+.btn-light:hover { background: var(--fill-2); }
+.btn[hidden] { display: none; }
+.btn-lg { min-height: 48px; padding: 0 22px; font-size: 15px; }
+
+.text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: var(--tap);
+  color: var(--accent);
+  font-weight: 500;
+  text-decoration: none;
+}
+.text-link:hover { text-decoration: underline; text-underline-offset: 4px; }
+.text-link svg { width: 16px; height: 16px; }
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  overflow: hidden; clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+
+/* Huntzilla wordmark: the mascot badge plus "Hunt" in the logo's yellow and "zilla" in its green */
+.wordmark {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font: 400 1.5rem/1 var(--display);
+  letter-spacing: .01em;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.wordmark img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px var(--hz-yellow);
+}
+.wordmark .wm-a { color: var(--hz-yellow-ink); }
+.wordmark .wm-b { color: var(--hz-green-ink); }
+.wordmark--sm { font-size: 1.25rem; }
+.wordmark--sm img { width: 28px; height: 28px; }
+.wordmark--lg { font-size: 2.5rem; }
+.wordmark--on-dark .wm-a { color: var(--hz-yellow); }
+.wordmark--on-dark .wm-b { color: var(--hz-green); }
+.brand, .bar-logo, .gh-logo { text-decoration: none; }
+
+/* =========================================================
+   Huntzilla brand: used on every page (home, story, testing, game)
+   Kept simple: logo colours, the logo-style lettering for headings,
+   and a night-black bar at the top of every page.
+   ========================================================= */
+:root {
+  --night: #07070D;       /* the logo's background */
+  --night-2: #030315;     /* the original Huntzilla footer */
+  --on-night: #FFFFFF;
+  --on-night-dim: rgba(255, 255, 255, .72);
+}
+
+/* Headings in the logo-style lettering */
+h1, h2,
+.card h3, .feature-cta h3, .end-card h1, .dialog h2 {
+  font-family: var(--display);
+  font-weight: 400;
+  letter-spacing: .01em;
+}
+
+/* Wordmark on the night bars uses the logo's bright yellow and green */
+.on-night .wordmark .wm-a, .wordmark--on-dark .wm-a { color: var(--hz-yellow); }
+.on-night .wordmark .wm-b, .wordmark--on-dark .wm-b { color: var(--hz-green); }
+/* The logo-style lettering has one weight, so headings never get a fake bold */
+h1, h2, .card h3, .feature-cta h3, .end-card h1, .dialog h2 { font-weight: 400 !important; }
+
+  font-family: var(--display);
+  font-weight: 400;
+  letter-spacing: .01em;
+}
+
+/* Wordmark on the night bars uses the logo's bright yellow and green */
+.on-night .wordmark .wm-a, .wordmark--on-dark .wm-a { color: var(--hz-yellow); }
+.on-night .wordmark .wm-b, .wordmark--on-dark .wm-b { color: var(--hz-green); }
+/* The logo-style lettering has one weight, so headings never get a fake bold */
+h1, h2, .card h3, .feature-cta h3, .end-card h1, .dialog h2 { font-weight: 400 !important; }
