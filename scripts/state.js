@@ -1,45 +1,38 @@
 // Huntzilla: what the app remembers between visits.
-// The session id lives in a cookie  so a game can be resumed after the browser closes.
-// Everything else uses localStorage  The current question is never stored.
+// session id goes in a cookie so you can carry on after closing the browser.
+// everything else goes in localStorage. the current question is never saved.
 
-
+//  cookies
 
 // check worksheet 7b plz
 function setCookie(cookieName, cookieValue, expireDays) {
   let date = new Date();
   date.setTime(date.getTime() + (expireDays * 24 * 60 * 60 * 1000));
   let expires = "expires=" + date.toUTCString();
-  document.cook ie = cookieName + "=" + cookieValue + ";" + expires + ";path=/";
+  document.cookie = cookieName + "=" + cookieValue + ";" + expires + ";path=/";
 }
 
-/
+// document.cookie looks like "a=1; b=2", so find "; name=" and cut out the value
 function getCookie(cookieName) {
-  let name = cookieName + "=";
-  let parts = document.cookie.split(";");
-  for (let i = 0; i < parts.length; i++) {
-    let c = parts[i];
-    while (c.charAt(0) === " ") {
-      c = c.substring(1);
-    }
-    if (c.indexOf(name) === 0) {
-      return c.substring(name.length, c.length);
-    }
-  }
-  return "";
+  let cookies = "; " + document.cookie + ";";
+  let start = cookies.indexOf("; " + cookieName + "=");
+  if (start === -1) return "";
+  let rest = cookies.substring(start + cookieName.length + 3);
+  return rest.substring(0, rest.indexOf(";"));
 }
 
-// From W3Schools: a cookie is deleted by giving it a date in the past
+// setting it to yesterday deletes it
 function deleteCookie(cookieName) {
-  document.cookie = cookieName + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+  setCookie(cookieName, "", -1);
 }
 
-// localStorage
+//  localStorage
 
 function saveData(key, value) {
   try {
     localStorage.setItem(key, JSON.stringify(value));
   } catch (error) {
-    // storage is full or blocked (private browsing): carry on without it
+    // storage not working, just skip it
   }
 }
 
@@ -61,22 +54,22 @@ function removeData(key) {
   }
 }
 
-// The names everything is saved under
+// names for everything we save
 const SESSION_COOKIE = "treasure-hunt-session";
-const HUNT_KEY = "huntzilla.hunt";              // { id, name, maxDuration, endsOn, startedAt, deadline, player, numOfQuestions }
+const HUNT_KEY = "huntzilla.hunt";
 const PLAYER_KEY = "huntzilla.player";          // remembered name
-const SCORE_KEY = "huntzilla.score";            // last known score
-const TRAIL_KEY = "huntzilla.trail";            // [{ lat, lng, t }]
-const HISTORY_KEY = "huntzilla.history";        // [{ n, text, type, answer, result, points, lat, lng, t }]
-const LAST_HUNT_KEY = "huntzilla.lastHunt";     // { id, name, player } for the leaderboard after a hunt
-const PRIMED_KEY = "huntzilla.locationPrimed";  // the location screen was shown for this hunt
-const LOCATION_ON_KEY = "huntzilla.locationOn"; // the player allowed location for this hunt
+const SCORE_KEY = "huntzilla.score";            // last score
+const TRAIL_KEY = "huntzilla.trail";            // places on the map
+const HISTORY_KEY = "huntzilla.history";        // past answers
+const LAST_HUNT_KEY = "huntzilla.lastHunt";     // for the leaderboard after
+const PRIMED_KEY = "huntzilla.locationPrimed";  // location screen already shown
+const LOCATION_ON_KEY = "huntzilla.locationOn"; // player said yes to location
 
-// The game session
+//  the game session
 
-// A new hunt has started
+// new hunt started
 function startSession(session, hunt, player, numOfQuestions) {
-  let startedAt = Date.now();
+  let startedAt = new Date().getTime();
   let deadline = sessionDeadline(hunt, startedAt);
   let daysLeft = (deadline - startedAt) / (24 * 60 * 60 * 1000);
   setCookie(SESSION_COOKIE, session, daysLeft);
@@ -110,7 +103,7 @@ function getLastHunt() {
   return loadData(LAST_HUNT_KEY, null);
 }
 
-// The game is over or abandoned. Past answers and the trail stay until the next hunt.
+// game over, answers and trail stay till the next hunt
 function endSession() {
   deleteCookie(SESSION_COOKIE);
   removeData(HUNT_KEY);
@@ -144,7 +137,7 @@ function getTrail() {
 
 function addTrailPoint(lat, lng) {
   let trail = loadData(TRAIL_KEY, []);
-  trail.push({ lat: lat, lng: lng, t: Date.now() });
+  trail.push({ lat: lat, lng: lng, t: new Date().getTime() });
   saveData(TRAIL_KEY, trail);
 }
 

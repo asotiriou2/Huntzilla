@@ -4,13 +4,12 @@
 let apiBase = "https://codecyprus.org/th/api/";
 const APP_NAME = "Huntzilla-Team-C";
 
-// test.html points this at the Testing API instead
+// test.html uses this to switch to the testing api
 function setApiBase(url) {
   apiBase = url;
 }
 
-// The server explains errors in errorMessages. This works out which kind of error it is,
-// so the app can show a friendly message for it.
+// works out what kind of error the server sent back
 function errorKind(message) {
   let text = message.toLowerCase();
   if (text.includes("already in use")) return "name-taken";
@@ -27,51 +26,63 @@ function errorKind(message) {
   return "unknown";
 }
 
-// Values go straight into the address . The browser turns spaces into %20 by itself,
-// but &, # and + would break the address, so they are left out.
+// takes out & # + because they break the url
 function cleanParam(value) {
-  let text = String(value);
+  let text = "" + value;
   let out = "";
   for (let i = 0; i < text.length; i++) {
     let ch = text[i];
-    if (ch === "&" || ch === "#" || ch === "+") continue;
-    out += ch;
+    if (ch !== "&" && ch !== "#" && ch !== "+") out += ch;
   }
   return out;
 }
 
-// Calls one API endpoint. params is an object such as { session: "abc" }.
-// Gives back a Promise with the server's JSON reply.
-// If something goes wrong it rejects with { kind, message }.
+// calls the api, like endpoint?key=value&key=value
+// always gives back the json. if something went wrong status is "ERROR"
+// and kind + message say what, so check data.status
 function apiCall(endpoint, params) {
   let url = apiBase + endpoint;
-  let query = [];
+  let first = true;
   for (let key in params) {
     let value = params[key];
-    if (value === undefined || value === null || value === false) continue;
-    if (value === true) {
-      query.push(key);   // flags like ?sorted
-    } else {
-      query.push(key + "=" + cleanParam(value));
+    if (value !== undefined && value !== null && value !== false) {
+      if (first) {
+        url += "?";
+      } else {
+        url += "&";
+      }
+      first = false;
+      if (value === true) {
+        url += key;                          // like ?sorted
+      } else {
+        url += key + "=" + cleanParam(value);
+      }
     }
   }
-  if (query.length > 0) url = url + "?" + query.join("&");
 
-  return fetch(url, { cache: "no-store" })
-    .catch(function () {
-      throw { kind: "network", message: "No connection" };
-    })
+  return fetch(url)
     .then(response => response.json())
     .then(function (data) {
       if (data.status === "ERROR") {
-        let message = (data.errorMessages || []).join(" ");
-        throw { kind: errorKind(message), message: message };
+        let message = "";
+        if (data.errorMessages) {
+          for (let i = 0; i < data.errorMessages.length; i++) {
+            if (i > 0) message += " ";
+            message += data.errorMessages[i];
+          }
+        }
+        data.kind = errorKind(message);
+        data.message = message;
       }
       return data;
+    })
+    .catch(function () {
+      // no internet or the server didn't answer
+      return { status: "ERROR", kind: "network", message: "No connection", errorMessages: ["No connection"] };
     });
 }
 
-// One function for each  API command
+// one function for each api command
 
 function getHuntList() {
   return apiCall("list", {});
@@ -101,13 +112,10 @@ function getScore(session) {
   return apiCall("score", { session: session });
 }
 
-// During a hunt pass the session; after it pass the hunt's id and true
+// session during the hunt, hunt id + true after it
 function getLeaderboard(sessionOrHuntId, isHuntId) {
-  let params = { sorted: true, limit: 20 };
   if (isHuntId) {
-    params["treasure-hunt-id"] = sessionOrHuntId;
-  } else {
-    params.session = sessionOrHuntId;
+    return apiCall("leaderboard", { sorted: true, limit: 20, "treasure-hunt-id": sessionOrHuntId });
   }
-  return apiCall("leaderboard", params);
+  return apiCall("leaderboard", { sorted: true, limit: 20, session: sessionOrHuntId });
 }
