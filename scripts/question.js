@@ -1,254 +1,266 @@
-import {getSessionCookie, API_URL, musicHandler, skipQuestion, numberOfQuestions, checkIcon, crossIcon, hamburgerButtonHandler} from "./util.js";
+// question.html - where you actually play.
+// gets the clue, shows the right answer box, sends the answer and shows if you got it
 
-const gameStarted = document.getElementById("game-started");
-const questionPanel = document.getElementById("question-panel");
-const questionBox = document.getElementById("question-box");
-const question = document.getElementById("question");
-const answerChoices= document.getElementById("answer-choices");
-const booleanAnswer  = document.getElementById("boolean-answer");
-const integerAnswer = document.getElementById("integer-answer");
-const numericAnswer = document.getElementById("numeric-answer");
-const multipleChoiceAnswer = document.getElementById("mcq-answer");
-const textAnswer = document.getElementById("text-answer");
-const submitAnswerButton = document.getElementById("submit-answer");
-const error = document.getElementById("error");
-const skipButton = document.getElementById("skip");
-const scoreContainer = document.getElementById("score-container");
-const questionHeading = document.querySelector("#question-box h3");
+let question = null; // the clue thats on screen
+let picked = ""; // which A-D / True False button is picked
+let sending = false; // so an answer doesnt get sent twice
+let dialogAction = null; // what the popup's ok button does
 
-// Inputs
-const integerInput = document.getElementById("integer");
-const numericInput = document.getElementById("numeric");
-const trueButton = document.getElementById("true");
-const falseButton = document.getElementById("false");
-const textInput = document.getElementById("input");
-const booleanButtons = document.querySelector("#boolean-answer .buttons");
-const mcqButtons = document.querySelector("#mcq-answer .buttons");
 
-let answer = "";
-let questionData;
+// getting the clue
 
-let booleanButtonSelected = "";
-let mcqButtonSelected = "";
+function loadQuestion() {
+  hide("offline-note");
+  hide("clue-view");
+  show("loading");
 
-/**
- *
- * @param sessionId  The session id given upon starting the treasure hunt
- * @returns {Promise<any>}
- */
-const fetchNextQuestion = async (sessionId) => {
+  getQuestion(getSession()).then(function (data) {
+    hide("loading");
 
-    const URL = `${API_URL}/question?session=${sessionId}`;
+    if (data.status === "ERROR") {
+      gameError(data);
+      return;
+    }
+    // completed means theres no clues left
+    if (data.completed) {
+      endGame("finished");
+      return;
+    }
 
-    const response = await fetch(URL);
-
-    return await response.json();
+    question = data;
+    showClue();
+  });
 }
 
-console.log("Welcome to the question page");
-const sessionCookie = getSessionCookie();
-let questions = JSON.parse(localStorage.getItem("questions"));
+function showClue() {
+  picked = "";
+  showProgress(question.currentQuestionIndex, question.numOfQuestions);
 
-console.log(questions);
-// If redirected from app.html the below code is not necessary, because it's already checked in app.html
-// The reason we also add it here is people might access the question.html directly.
-/**
- * TODO - In the future we could improve this by not allowing them to directly access question.html but only if they
- * get redirected from app.html. In that case we could show a 403 error or redirect them back to app.html
- */
-if (!sessionCookie){
-    location.href = "app.html";
-}else{
-    hamburgerButtonHandler();
-    for (let i=0; i<numberOfQuestions; i++){
-        const div = document.createElement("div");
-        div.classList.add("question-number");
-        div.innerHTML = (i+1).toString();
-        div.dataset.questionIndex = i.toString();
-        scoreContainer.appendChild(div);
-        if (questions[`question_${i}`] === true){
-            div.innerHTML = checkIcon;
-            div.classList.add("correct");
-            console.log("green")
-        }else if (questions[`question_${i}`] === false){
-            div.innerHTML = crossIcon;
-            div.classList.add("incorrect");
-            console.log("red");
-        }else if (questions[`question_${i}`] === "skipped"){
-            div.classList.add("skipped");
-        }
-        console.log(questions["question_0"]);
-        if (i < numberOfQuestions - 1){
-            const span = document.createElement("span");
-            span.dataset.questionIndex = i.toString();
-            span.classList.add("progress-line");
-            scoreContainer.appendChild(span);
+  // the question text can have html in it (links, bold etc) so it goes through
+  // safeQuestionHtml first, that also makes links open in a new tab
+  byId("question-text").innerHTML = safeQuestionHtml(question.questionText);
+  byId("answer-error").innerText = "";
+  byId("submit-btn").innerText = "Send answer";
 
-        }
+  buildAnswer();
+  show("clue-view");
+}
 
+// MCQ gets 4 buttons, BOOLEAN gets True/False, everything else gets a text box.
+// INTEGER uses a number box so phones show the number keyboard
+function buildAnswer() {
+  let area = byId("answer-area");
+  area.innerHTML = "";
+  let type = question.questionType;
+
+  if (type === "MCQ") {
+    let choices = makeEl("div", "choices", "");
+    let letters = ["A", "B", "C", "D"];
+    for (let letter of letters) {
+      choices.appendChild(choiceButton(letter, letter));
     }
-    // If there is a session cookie, we should be able to fetch questions without any problems
-    fetchNextQuestion(sessionCookie.value)
-        .then(data => {
-            if (data.status === "OK"){
-                console.log(data);
-                // Show the template HTML for the question
-                gameStarted.ariaHidden = "false";
-                questionPanel.ariaHidden = "false";
-                question.innerHTML = data.questionText;
-                scoreContainer.ariaHidden = "false";
-                questionData = data;
-                skipButton.ariaHidden = "false";
-                questionHeading.innerText = `Question ${data.currentQuestionIndex + 1} of ${numberOfQuestions}`;
-                // let questions = localStorage.getItem("questions");
-                // if(questions === null){
-                //     questions = {};
-                // }else{
-                //     questions = JSON.parse(questions);
-                // }
+    area.appendChild(choices);
 
-                // questions[`question_${questionData.currentQuestionIndex}`] = "not_answered";
-                // localStorage.setItem("questions", JSON.stringify(questions));
+  } else if (type === "BOOLEAN") {
+    let choices = makeEl("div", "choices", "");
+    choices.appendChild(choiceButton("True", "T"));
+    choices.appendChild(choiceButton("False", "F"));
+    area.appendChild(choices);
+
+  } else {
+    let label = makeEl("label", "field-label", "YOUR ANSWER");
+    label.setAttribute("for", "answer-input");
+    area.appendChild(label);
+
+    let input = makeEl("input", "text-input", "");
+    input.setAttribute("id", "answer-input");
+    if (type === "INTEGER") {
+      input.setAttribute("type", "number");
+    } else {
+      input.setAttribute("type", "text");
+    }
+    if (type === "NUMERIC") input.setAttribute("placeholder", "Like 2.5");
+    area.appendChild(input);
+  }
+}
+
+// one big button like A or True
+function choiceButton(value, letter) {
+  let button = makeEl("button", "choice", "");
+  button.setAttribute("type", "button");
+  button.setAttribute("id", "choice-" + value);
+  button.setAttribute("onclick", "pick('" + value + "')");
+  button.appendChild(makeEl("span", "choice-letter", letter));
+  if (value !== letter) button.appendChild(makeEl("span", "", value));
+  return button;
+}
+
+// highlights the button you tapped and un-highlights the old one
+function pick(value) {
+  if (picked) byId("choice-" + picked).setAttribute("class", "choice");
+  picked = value;
+  byId("choice-" + value).setAttribute("class", "choice is-picked");
+}
+
+function currentAnswer() {
+  let type = question.questionType;
+  if (type === "MCQ" || type === "BOOLEAN") return picked;
+  return byId("answer-input").value;
+}
 
 
-                // Store the current question index in local storage
-                localStorage.setItem("currentQuestion", String(questionData.currentQuestionIndex));
+// sending the answer
 
-                // Show answer option based on the type of question
-                if (data.questionType === "INTEGER"){
-                    integerInput.value = "";
-                    integerAnswer.ariaHidden = "false";
-                }else if (data.questionType === "BOOLEAN"){
-                    booleanAnswer.ariaHidden = "false";
-                }else if (data.questionType === "MCQ"){
-                    multipleChoiceAnswer.ariaHidden = "false";
-                }else if (data.questionType === "TEXT"){
-                    textInput.value = "";
-                    textAnswer.ariaHidden = "false";
-                }else if (data.questionType === "NUMERIC"){
-                    numericInput.value = "";
-                    numericAnswer.ariaHidden = "false";
-                }
-            }else if (data.status === "ERROR"){
-                // show information to the client of the error
-                alert(data.errorMessages);
-                // remove the session cookie: Important because if we don't do this when it goes back to app, it will come immediately here
-                document.cookie = "treasure-hunt-session=;max-age=0;path=/;";
-                // redirect them back to the app.html
-                location.href = "app.html";
-                localStorage.removeItem("questions");
-                localStorage.removeItem("currentQuestion");
-                localStorage.removeItem("treasure-hunt-numbe-of-questions");
-            }
-        });
+function submitAnswer() {
+  if (sending || !question) return;
 
-    submitAnswerButton.addEventListener("click", async () => {
-        error.ariaHidden = "true";
-        console.log(integerInput.value);
-        if (questionData.questionType === "INTEGER"){
-            answer = integerInput.value;
-        }else if (questionData.questionType === "MCQ"){
-            //
-        }else if (questionData.questionType === "TEXT"){
-            answer = textInput.value;
-        }else if (questionData.questionType === "NUMERIC"){
-            answer = numericInput.value;
+  // check it first so we dont waste a go on something like "abc" for a number
+  let raw = currentAnswer();
+  let problem = validateAnswer(question.questionType, raw);
+  byId("answer-error").innerText = problem;
+  if (problem !== "") return;
+
+  let answer = formatAnswer(question.questionType, raw);
+  sending = true;
+  byId("submit-btn").innerText = "Checking…";
+  sendIt(answer);
+}
+
+function sendIt(answer) {
+  sendAnswer(getSession(), answer).then(function (data) {
+    sending = false;
+    byId("submit-btn").innerText = "Send answer";
+    if (data.status === "ERROR") {
+      gameError(data);
+      return;
+    }
+    refreshScore();
+
+    let points = pointsText(data.scoreAdjustment);
+    if (data.correct) {
+      let next = "Next clue";
+      if (data.completed) next = "See your score";
+
+      openDialog("✓", "is-good", "Correct!", points, data.message, next, function () {
+        if (data.completed) {
+          endGame("finished");
+        } else {
+          loadQuestion();
         }
-        console.log(answer);
+      }, false);
+    } else {
+      // wrong just closes the popup so they can try the same clue again
+      openDialog("✗", "is-bad", "Not quite", points, data.message, "Try again", null, false);
+    }
+  });
+}
 
-        if (questionData.questionType === "BOOLEAN" && answer === ""){
-            // didn't choose true or false and clicked submit
-            error.ariaHidden = "false";
-            error.innerText = "Choose either True or False";
-            return;
-        }else if (questionData.questionType === "MCQ" && answer === ""){
-            // didn't choose any of the available multiple choices
-            error.ariaHidden = "false";
-            error.innerText = "Choose one of A, B, C or D";
-            return;
-        }
+// +10 points / -3 points, nothing if its 0
+function pointsText(n) {
+  if (!n) return "";
+  if (n > 0) return "+" + n + " points";
+  return n + " points";
+}
 
-        if (answer === ""){
-            alert("Please give an answer");
-            return;
-        }
-        // request /answer
-        const ANSWER_URL = `${API_URL}/answer?session=${sessionCookie.value}&answer=${answer}`;
-        const response = await fetch(ANSWER_URL);
-        const data = await response.json();
-        if (data.status === "OK"){
-            if (data.completed){
-                // Completed the treasure hunt
-                // Redirect to leaderboard
-                // Remove session from cookie
-                document.cookie = "treasure-hunt-session=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-                location.href = "leaderboard.html";
-                return;
-            }
-            //Update local storage for the current question status
-            const question_index = `question_${questionData.currentQuestionIndex}`;
-            let questionsStore = JSON.parse(localStorage.getItem("questions"));
-            questionsStore[question_index] = data.correct;
-            console.log(questionsStore);
-            console.log(data);
-            localStorage.setItem("questions", JSON.stringify(questionsStore));
-            location.reload();
 
-        }else if (data.status === "ERROR"){
-            // remove the session cookie
-            document.cookie = "treasure-hunt-session=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-            console.log(document.cookie);
-            alert(data.errorMessages);
-            location.reload();
-        }
+// popup
 
+// one popup for everything (right, wrong, skip, errors).
+// onOk is what happens when they press the main button, null just closes it
+function openDialog(icon, iconClass, title, points, text, okLabel, onOk, withCancel) {
+  byId("dlg-icon").innerText = icon;
+  byId("dlg-icon").setAttribute("class", "dialog-icon " + iconClass);
+  byId("dlg-title").innerText = title;
+  byId("dlg-points").innerText = points;
+  byId("dlg-text").innerText = text;
+  byId("dlg-ok").innerText = okLabel;
+
+  if (withCancel) {
+    show("dlg-cancel");
+  } else {
+    hide("dlg-cancel");
+  }
+  dialogAction = onOk;
+  show("dialog");
+}
+
+function dialogOk() {
+  hide("dialog");
+  if (dialogAction) dialogAction();
+}
+
+
+// errors
+
+// kind comes from errorKind in api.js
+function gameError(data) {
+  sending = false;
+  byId("submit-btn").innerText = "Send answer";
+
+  if (data.kind === "expired") {
+    endGame("expired");
+    return;
+  }
+  if (data.kind === "network") {
+    show("offline-note");
+    return;
+  }
+  if (data.kind === "session-unknown") {
+    endSession();
+    openDialog("!", "", "Game not found", "", errorText(data), "Back to the hunts", function () {
+      openPage("app.html");
+    }, false);
+    return;
+  }
+
+  openDialog("!", "", "Something went wrong", "", errorText(data), "OK", null, false);
+}
+
+
+// end of the game
+
+function endGame(kind) {
+  // grab these before endSession() at the bottom clears them
+  let session = getSession();
+  let hunt = getCurrentHunt();
+
+  stopHeader();
+  hide("loading");
+  hide("clue-view");
+
+  if (kind === "finished") {
+    byId("end-title").innerText = "You finished!";
+    byId("end-text").innerText = "You got through every clue in " + hunt.name + ".";
+  } else {
+    byId("end-title").innerText = "Time's up";
+    byId("end-text").innerText = "The clock ran out for " + hunt.name + ".";
+  }
+
+  // show the saved score straight away then the real one when it comes back
+  byId("end-score").innerText = getLastScore() + " points";
+  if (session) {
+    getScore(session).then(function (data) {
+      if (data.status === "ERROR") return;
+      setLastScore(data.score);
+      byId("end-score").innerText = data.score + " points";
     });
-    skipButton.addEventListener("click", async () => {
-        if (!questionData.canBeSkipped){
-            error.ariaHidden = "false";
-            error.innerText = "You cannot skip this question.";
-            return;
-        }
-        await skipQuestion(sessionCookie.value);
-        const questions = JSON.parse(localStorage.getItem("questions"));
-        questions[`question_${questionData.currentQuestionIndex}`] = "skipped";
+  }
 
-        localStorage.setItem("questions", JSON.stringify(questions));
-
-        location.reload();
-
-    })
-    for (const booleanButton of booleanButtons.children){
-       booleanButton.addEventListener("click", (event) => {
-           if (booleanButtonSelected !== event.target.value){
-               booleanButtonSelected = event.target.value;
-               booleanButton.ariaSelected = "true";
-               console.log(booleanButton.value);
-               answer = event.target.value;
-               for (const button of booleanButtons.children){
-                   if (button.value !== booleanButtonSelected){
-                       button.ariaSelected = "false";
-                   }
-               }
-           }
-       });
-    }
-    for (const multipleChoiceButton of mcqButtons.children){
-        multipleChoiceButton.addEventListener("click", (event) => {
-            if (mcqButtonSelected !== event.target.value){
-                answer = event.target.value;
-                mcqButtonSelected = event.target.value;
-                multipleChoiceButton.ariaSelected = "true";
-                for (const button of mcqButtons.children){
-                    if (button.value !== mcqButtonSelected){
-                        button.ariaSelected = "false";
-                    }
-                }
-            }
-
-        })
-    }
+  show("end-view");
+  endSession();
 }
 
 
-// musicHandler();
+if (!getCurrentHunt()) {
+  // not playing so back to the list
+  openPage("app.html");
+} else if (!getSession() || getCurrentHunt().deadline <= new Date().getTime()) {
+  // the cookie runs out at the same time as the hunt, so no cookie = times up
+  byId("gh-hunt").innerText = getCurrentHunt().name;
+  endGame("expired");
+} else {
+  startHeader(function () {
+    endGame("expired");
+  });
+  loadQuestion();
+}

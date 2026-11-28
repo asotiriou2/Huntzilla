@@ -30,6 +30,31 @@
         <button class="btn btn-light" type="button" onclick="loadHunts()">Refresh</button>
       </div>
     </section>
+
+    <!-- joining a hunt (app.html?hunt=...) -->
+    <section id="join-view" style="display: none">
+      <span class="badge badge--live">Live</span>
+      <h1 id="join-name"></h1>
+      <p class="lead" id="join-desc"></p>
+      <div class="facts">
+        <p class="field-label">TIME LIMIT <strong id="join-limit"></strong></p>
+        <p class="field-label">CLOSES <strong id="join-closes"></strong></p>
+      </div>
+      <ul class="rules">
+        <li>Some clues only count when you answer them at the place.</li>
+        <li>Wrong answers cost points.</li>
+        <li>Skipping a clue costs points, and you can't go back to it.</li>
+      </ul>
+      <!-- return false so the page doesnt reload when you press start -->
+      <form class="card" onsubmit="joinHunt(); return false">
+        <label class="field-label" for="player">YOUR NAME</label>
+        <input class="text-input" id="player" type="text" maxlength="32" required>
+        <p class="field-help">This is how you'll show on the leaderboard.</p>
+        <p class="field-error" id="player-error"></p>
+        <button class="btn btn-lg btn-block" type="submit" id="start-btn">Start hunt</button>
+      </form>
+      <p><a class="text-link" href="app.html">← Back to the hunts</a></p>
+    </section>
   </main>
 
   <!-- how to play -->

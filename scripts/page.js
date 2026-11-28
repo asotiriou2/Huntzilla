@@ -32,3 +32,9 @@ function addressValue(name) {
 function openPage(address) {
   window.location.href = address;
 }
+
+// keeps ?test on the links when we're testing
+function testPart() {
+  let part = "";
+  return part;
+}

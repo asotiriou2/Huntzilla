@@ -36,6 +36,56 @@ button.bar-link {
 }
 .bar-right { text-align: right; }
 
+/* the game header: hunt name, time left, score */
+
+.game-header {
+  padding: 10px var(--gutter) 12px;
+  background: var(--night);
+  color: var(--on-night);
+  border-bottom: 3px solid var(--hz-yellow);
+}
+.gh-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.gh-hunt {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--on-night-dim);
+}
+.gh-time, .gh-score {
+  margin: 0;
+  padding: 4px 10px;
+  border-radius: 8px;
+  background: var(--hz-dark);
+  font-size: 16px;
+  font-weight: 700;
+  white-space: nowrap; /* https://www.w3schools.com/cssref/pr_text_white-space.php */
+}
+.gh-time { color: var(--hz-yellow); }
+.gh-time.is-low { background: var(--bad); color: var(--on-night); }
+.gh-score { color: var(--hz-green); }
+.gh-clue {
+  margin: 8px 0 6px;
+  font-size: 13px;
+  color: var(--on-night-dim);
+}
+/* progress bar, question.js sets the width */
+.bar {
+  height: 6px;
+  border-radius: 3px;
+  background: var(--hz-dark);
+}
+.bar-fill {
+  width: 0%;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--hz-yellow);
+}
+
 
 /* the page column */
 
@@ -98,6 +148,106 @@ a.card:hover { background: var(--fill-2); }
   margin-top: 8px;
 }
 
+/* forms */
+
+.field-label {
+  display: block;
+  margin: 16px 0 6px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .08em;
+  color: var(--text-faint);
+}
+.text-input {
+  display: block;
+  width: 100%;
+  min-height: 48px;
+  padding: 0 14px;
+  border: 2px solid var(--line-2);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text);
+  font-size: 17px;
+  font-family: var(--sans);
+}
+.text-input:hover { border-color: var(--text-faint); }
+.field-help { margin: 6px 0 0; font-size: 14px; color: var(--text-faint); }
+.field-error { margin: 6px 0 0; font-size: 14px; color: var(--bad); font-weight: 600; }
+.btn-block { display: flex; width: 100%; margin-top: 18px; }
+
+.facts {
+  display: flex;
+  gap: 24px;
+  margin: 0 0 16px;
+}
+.facts p { margin: 0; }
+.facts strong { display: block; font-size: 18px; }
+
+/* the clue */
+
+.question-text {
+  margin: 0 0 20px;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1.45;
+}
+.question-text a { color: var(--accent); }
+
+/* A-D and True/False buttons */
+.choices {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.choice {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+  min-height: 56px;
+  padding: 10px 16px;
+  border: 2px solid var(--line-2);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text);
+  font-size: 17px;
+  font-weight: 600;
+  font-family: var(--sans);
+  text-align: left;
+}
+.choice:hover { border-color: var(--text-faint); }
+.choice.is-picked { border-color: var(--text); background: var(--hz-yellow-soft); }
+.choice-letter {
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: var(--fill);
+  font-size: 15px;
+  text-align: center;
+  line-height: 32px;
+}
+.choice.is-picked .choice-letter { background: var(--hz-yellow); }
+
+.clue-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 20px;
+}
+.clue-actions .btn { width: 100%; }
+.text-btn {
+  min-height: 44px;
+  padding: 0 8px;
+  border: 0;
+  background: var(--bg);
+  color: var(--accent);
+  font-size: 15px;
+  font-weight: 600;
+  font-family: var(--sans);
+}
+.text-btn:hover { text-decoration: underline; }
+
 
 /* the pop up box (feedback, skip, location) */
 
@@ -126,8 +276,50 @@ a.card:hover { background: var(--fill-2); }
 .dialog .btn { width: 100%; margin-top: 12px; }
 .rules { margin: 0 0 20px; padding-left: 20px; color: var(--text-dim); text-align: left; }
 .rules li { margin-bottom: 6px; }
+.dialog-icon {
+  display: inline-block;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--fill);
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 56px;
+}
+.dialog-icon.is-good { background: var(--good); color: var(--on-night); }
+.dialog-icon.is-bad { background: var(--bad); color: var(--on-night); }
+.points { font-size: 32px; font-weight: 700; color: var(--text); }
+
+/* end of the hunt */
+
+.end-card { text-align: center; padding: 32px 20px; }
+.end-card img { margin: 0 auto; }
+.end-card h1 { margin: 12px 0 8px; }
+.end-score { margin: 8px 0; font-size: 48px; font-weight: 700; }
+.end-links {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+}
 
 
+
+
+
+/* offline banner */
+
+.offline-note {
+  display: none;
+  margin: 0;
+  padding: 10px var(--gutter);
+  background: var(--warn-soft);
+  color: var(--warn);
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+}
 
 
 /* bigger screens */
@@ -135,4 +327,9 @@ a.card:hover { background: var(--fill-2); }
 @media (min-width: 768px) {
   .screen { padding-top: 40px; }
   .screen h1 { font-size: 36px; }
+  .choices { flex-direction: row; }
+  .choice { flex-direction: column; justify-content: center; text-align: center; }
+  .clue-actions { flex-direction: row; justify-content: space-between; }
+  .clue-actions .btn { width: auto; }
+  .end-links { flex-direction: row; justify-content: center; }
 }

@@ -1,6 +1,8 @@
 // app.html - the hunt list, and the join form when you tap a hunt
 
 let hunts = [];
+let joining = null; // the hunt thats on the join form
+let starting = false; // so start cant get pressed twice while we wait for the server
 
 
 // ----- the hunt list -----
@@ -51,9 +53,12 @@ function showHunts() {
 function huntCard(hunt, now) {
   let status = huntStatus(hunt, now);
   let card;
-  // cant join yet, thats the next update
-  card = makeEl("div", "card", "");
-  if (status !== "live") card.setAttribute("class", "card is-ended");
+  if (status === "live") {
+    card = makeEl("a", "card", "");
+    card.setAttribute("href", "app.html?hunt=" + hunt.uuid + testPart());
+  } else {
+    card = makeEl("div", "card is-ended", "");
+  }
 
   // the little tag and the date line change depending on the status
   let badge = "Live";
@@ -73,6 +78,7 @@ function huntCard(hunt, now) {
   let meta = when;
   if (hunt.maxDuration) meta = formatDuration(hunt.maxDuration) + " to play · " + when;
   card.appendChild(makeEl("p", "hunt-meta", meta));
+  if (status === "live") card.appendChild(makeEl("p", "hunt-go", "Join hunt →"));
 
   return card;
 }
@@ -94,4 +100,72 @@ function showListMessage(text, withRetry) {
 }
 
 
-loadHunts();
+// ----- joining a hunt -----
+
+// app.html?hunt=... opens this. we get the list again to find the hunt
+// because the page reloaded so we lost the old one
+function openJoin(id) {
+  hide("list-view");
+  show("join-view");
+  byId("join-name").innerText = "Loading…";
+
+  getHuntList().then(function (data) {
+    if (data.status === "ERROR") {
+      byId("join-name").innerText = errorText(data);
+      return;
+    }
+
+    for (let hunt of data.treasureHunts) {
+      if (hunt.uuid === id) {
+        showJoin(hunt);
+        return;
+      }
+    }
+    byId("join-name").innerText = "We can't find that hunt any more";
+  });
+}
+
+function showJoin(hunt) {
+  joining = hunt;
+  byId("join-name").innerText = hunt.name;
+  byId("join-desc").innerText = hunt.description;
+  byId("join-limit").innerText = hunt.maxDuration ? formatDuration(hunt.maxDuration) : "None";
+  byId("join-closes").innerText = formatDateTime(hunt.endsOn);
+  byId("player").value = getRememberedName();
+}
+
+// runs when the form is sent. if the server says ok we save the game
+// (cookie + localStorage) and go to question.html
+function joinHunt() {
+  if (starting || !joining) return;
+
+  let name = trimSpaces(byId("player").value);
+  byId("player-error").innerText = "";
+  if (name === "") {
+    byId("player-error").innerText = "Add a name so we can put you on the leaderboard.";
+    return;
+  }
+
+  starting = true;
+  byId("start-btn").innerText = "Starting…";
+
+  startHunt(name, joining.uuid).then(function (data) {
+    starting = false;
+    byId("start-btn").innerText = "Start hunt";
+    if (data.status === "ERROR") {
+      byId("player-error").innerText = errorText(data);
+      return;
+    }
+
+    startSession(data.session, joining, name, data.numOfQuestions);
+    rememberName(name, true);
+    openPage("question.html");
+  });
+}
+
+
+if (addressValue("hunt")) {
+  openJoin(addressValue("hunt"));
+} else {
+  loadHunts();
+}
