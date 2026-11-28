@@ -1,700 +1,138 @@
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-:root {
-    --button-bg: #FFD700;
-    --button-hover-bg: #26d51b;
-    --button-transition: background-color 0.15s ease-in, color 0.15s ease-in;
-    --treasure-hunt-button-hover-bg: #ff8a4c;
-}
-body{
+/* css for the game pages. colours + buttons are in base.css */
 
-    /*Cosmetics*/
-    background-image: url("../media/map_x.png");
-    /*Spacing*/
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
-    display: flex;
-    flex-direction: column;
-    margin: 0;
-    min-height: 110vh;
-}
-header{
-    height: 100px;
-}
-header nav{
-    width: 100%;
-    padding: 20px;
-    background-color: #005E89;
-    border-top: #007BB3 solid 6px;
-    border-bottom: #007BB3 solid 6px;
-    height: 100%;
-}
-header nav ul{
-    list-style: none;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 50px;
+body.game {
+  background: var(--bg);
 }
 
-#logo h1{
-    color: #FFD700;
-    font-family: "Bahiana", cursive;
-    font-size: 40px;
+/* the dark bar at the top */
 
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 56px;
+  padding: 8px var(--gutter);
+  background: var(--night);
+  color: var(--on-night);
+  border-bottom: 3px solid var(--hz-yellow);
 }
+.topbar a { color: var(--on-night); }
+.topbar .wordmark .wm-a { color: var(--hz-yellow); }
+.topbar .wordmark .wm-b { color: var(--hz-green); }
+.bar-link {
+  min-width: 64px;
+  font-size: 15px;
+  font-weight: 600;
+  text-decoration: none; /* https://www.w3schools.com/cssref/pr_text_text-decoration.php */
+}
+.bar-link:hover { color: var(--hz-yellow); }
+button.bar-link {
+  padding: 0;
+  border: 0;
+  background: var(--night);
+  color: var(--on-night);
+  font-family: var(--sans);
+}
+.bar-right { text-align: right; }
 
-#logozilla {
-    height: 350px;
-}
 
-#desktop-nav .menu-option {
-    max-width: 120px;
-    width: 100%;
-    display: inline-block;
+/* the page column */
+
+.screen {
+  max-width: 640px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 24px var(--gutter) 32px;
 }
+.screen h1 {
+  margin: 0 0 16px;
+  font-size: 28px;
+  line-height: 1.15; /* https://www.w3schools.com/cssref/pr_dim_line-height.php */
+}
+.lead { margin: 0 0 16px; color: var(--text-dim); }
+.muted { color: var(--text-faint); font-size: 14px; }
+
+/* cards */
+.card {
+  display: block;
+  margin: 0 0 12px;
+  padding: 16px 20px;
+  border-radius: var(--radius-lg);
+  background: var(--fill);
+  color: var(--text);
+  text-decoration: none;
+}
+a.card:hover { background: var(--fill-2); }
+.card h2 { margin: 6px 0 4px; font-size: 20px; }
+.card p { margin: 4px 0 0; }
+.card.is-ended { opacity: .6; }
+
+/* little tag like "Live" */
+.badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .04em; /* https://www.w3schools.com/cssref/pr_text_letter-spacing.php */
+}
+.badge--live { background: var(--good); color: var(--on-night); }
+.badge--upcoming { background: var(--warn-soft); color: var(--warn); }
+.badge--ended { background: var(--fill-2); color: var(--text-dim); }
+
+.hunt-desc { color: var(--text-dim); }
+.hunt-meta { color: var(--text-faint); font-size: 14px; }
+.hunt-go { margin-top: 10px; color: var(--accent); font-weight: 600; }
+
+/* message box for errors / empty list */
+.state-card { text-align: center; padding: 28px 20px; }
+.state-card .btn { margin-top: 14px; }
 
 
-.menu-option a {
-    display: inline-block;
-    text-decoration: none;
-    font-size: 15px;
-    padding: 8px;
-    width: 100%;
-    color: black;
-    font-family: Arial, sans-serif;
-    border-radius: 5px;
-    text-align: center;
-    transition: var(--button-transition);
-    background-color: var(--button-bg);
-    border: black 2px solid;
-}
-
-.menu-option a:hover {
-    background-color: var(--button-hover-bg);
-    color: white;
-}
-
-main {
-    margin-top: 50px;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    height: 100vh;
-}
-
-#jingle{
-
-}
-
-#game-not-started,
-#game-started{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-family: "Cinzel", Arial, sans-serif;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    box-shadow: 0 5px 10px rgb(60 60 60 / 0.49);
-    gap: 30px;
-    max-width: 1500px;
-    max-height: 1100px;
-    border-radius: 15px;
-    position: relative;
-    width: 100%;
-    height: 100%;
-}
-#game-not-started[aria-hidden="true"],
-#game-started[aria-hidden="true"]{
-    display: none;
-}
-#game-not-started[aria-hidden="false"],
-#game-started[aria-hidden="false"]{
-    display: flex;
-}
-#game-not-started h2 {
-    font-family: "Cinzel", Arial, sans-serif;
-    color: white;
-    font-size: 35px;
-}
-
-#start-game {
-    padding: 20px;
-    color: black;
-    background-color: #FFD700;
-    border: black solid 5px;
-    box-shadow: 0px 0px 20px rgb(255 166 0);
-    font-size: 25px;
-    border-radius: 10px;
-    margin-top: 60px;
-    cursor: pointer;
-    min-width: 200px;
-    animation: start_animation 2s infinite;
-}
-
-#start-game:hover {
-    background-color: #26d51b;
-    color: white;
-}
-#start-game:disabled{
-    cursor: not-allowed;
-    color: black;
+.list-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 8px;
 }
 
 
-@keyframes start_animation {
-    0% {
-        transform: scale(1);
-    }
-    50% {
-        transform: scale(1.2);
-    }
-    100% {
-        transform: scale(1);
-    }
-}
+/* the pop up box (feedback, skip, location) */
 
-#game-started{
-    background-color: rgb(0 0 0 / 0.75);
-    color: white;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    overflow: hidden;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 30px;
+.dialog-back {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  display: none;
+  width: 100%;
+  height: 100%;
+  padding: 24px var(--gutter);
+  background: var(--fill);
 }
+.dialog {
+  max-width: 440px;
+  margin: 40px auto 0;
+  padding: 28px 24px 24px;
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: 0 8px 30px var(--line-2);
+  text-align: center;
+}
+.dialog h2 { margin: 8px 0; font-size: 24px; }
+.dialog p { margin: 0 0 8px; color: var(--text-dim); }
+.dialog .btn { width: 100%; margin-top: 12px; }
+.rules { margin: 0 0 20px; padding-left: 20px; color: var(--text-dim); text-align: left; }
+.rules li { margin-bottom: 6px; }
 
-#game-started #breadcrumb{
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    height: 100px;
-    background-color: #005E89;
-    position: relative;
-}
-#game-started #breadcrumb #go-back[aria-hidden="true"]{
-    display: none;
-}
-#game-started #breadcrumb #go-back[aria-hidden="false"]{
-    display: block;
-}
-#game-started #breadcrumb #go-back {
-    background-color: var(--button-bg);
-    color: black;
-    transition: var(--button-transition);
-    cursor: pointer;
-    border: none;
-    font-size: 18px;
-    position: absolute;
-    top: 120px;
-    left: 20px;
-    padding: 10px;
-    border-radius: 5px;
-}
-#game-started #breadcrumb #go-back:hover{
-    background-color: var(--button-hover-bg);
-    color: white;
-}
-#game-started #breadcrumb img{
-    width: 120px;
-    height: auto;
-}
-#game-started #info{
-    margin-top: 50px;
-    font-size: 25px;
-    text-align: center;
-}
-#game-started #treasure-hunts-list{
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 30px;
-    margin-top: 30px;
-    max-width: 500px;
-    width: 100%;
-}
-#game-started #treasure-hunts-list li{
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-#game-started #treasure-hunts-list li .treasure-hunt-button{
-    color: black;
-    background-color: var(--button-bg);
-    /*border: white 2px solid;*/
-    border: none;
-    font-size: 25px;
-    cursor: pointer;
-    width: 100%;
-    padding: 5px 15px;
-    border-radius: 5px;
-    /*transition: var(--button-transition);*/
-    overflow-wrap: break-word;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    transition: background-color 0.15s ease-in;
-    position: relative;
-    gap: 5px;
 
-}
-#game-started #treasure-hunts-list li .treasure-hunt-button #hunt{
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-}
-#game-started #treasure-hunts-list li .treasure-hunt-button #date{
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
-    font-size: 13px;
-}
-#game-started #treasure-hunts-list li .treasure-hunt-button:disabled{
-    cursor: default;
-    background-color: #939393;
-}
-#game-started #treasure-hunts-list li .treasure-hunt-button:not(:disabled):hover{
-    background-color: var(--treasure-hunt-button-hover-bg);
-}
 
-/*#game.started #treasure-hunts-list li .treasure-hunt-button:hover{*/
-/*    background-color: var(--button-hover-bg);*/
-/*    color: white;*/
-/*}*/
 
-#game-started #treasure-hunt-form{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 30px;
-    margin-top: 150px;
-}
-#game-started #treasure-hunt-form[aria-hidden="true"]{
-   display: none;
-}
-#game-started #treasure-hunt-form[aria-hidden="false"]{
-    display: flex;
-}
-#game-started #treasure-hunt-form .input-container{
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-    gap: 15px;
-}
-#game-started #treasure-hunt-form .input-container input{
-    width: 300px;
-    padding: 15px;
-    border-radius: 5px;
-    background-color: transparent;
-    border: 1px solid white;
-    color: white;
-    font-size: 18px;
-}
-#game-started #treasure-hunt-form .input-container label{
-    font-size: 20px;
-}
-#game-started #treasure-hunt-form #part-1[aria-hidden="true"],
-#game-started #treasure-hunt-form #part-2[aria-hidden="true"]{
-   display: none;
-}
-#game-started #treasure-hunt-form #part-1[aria-hidden="false"],
-#game-started #treasure-hunt-form #part-2[aria-hidden="false"]{
-    display: flex;
-}
-#game-started #treasure-hunt-form .part-container{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 15px;
-}
-#game-started #treasure-hunt-form #part-1{
-    padding: 10px;
-}
-#game-started #treasure-hunt-form #part-2{
-    margin-top: 50px;
-    gap: 30px;
-}
+/* bigger screens */
 
-#game-started #treasure-hunt-form .treasure-hunt-button.selected{
-    border: 4px solid #729fff;
-}
-#game-started #treasure-hunt-form #submit{
-    padding: 15px 0;
-    font-size: 20px;
-    background-color: #2d6eff;
-    color: white;
-    border: none;
-    border-radius: 10px;
-    width: 150px;
-    cursor: pointer;
-}
-#game-started #treasure-hunt-form #submit:disabled{
-    cursor: not-allowed;
-    background-color: #8d8d8d;
-}
-#game-started #treasure-hunt-form #error-message[aria-hidden="true"]{
-    display: none;
-}
-#game-started #treasure-hunt-form #error-message[aria-hidden="false"]{
-    display: block;
-    padding: 15px 20px;
-    width: 500px;
-    overflow-wrap: break-word;
-    color: #ff4b4b;
-    font-size: 18px;
-    text-align: center;
-    border-radius: 5px;
-}
-.treasure-hunt-button #submit-icon{
-    /*Style for icon*/
-    width: 40px;
-    height: 40px;
-    position: absolute;
-    top: 50%;
-    left: 85%;
-    transform: translate(-50%, -50%);
-}
-.treasure-hunt-button #submit-icon path{
-    fill: green;
-}
-
-#treasure-hunt-session{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    margin-top: 70px;
-    gap: 30px;
-}
-#treasure-hunt-session #question-container{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: 30px;
-    color: white;
-    gap: 20px;
-}
-#treasure-hunt-session #answer{
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-    gap: 15px;
-    border: none;
-    padding: 10px;
-    font-size: 18px;
-    color: black;
-}
-#treasure-hunt-session[aria-hidden="false"]{
-    display: flex;
-}
-#treasure-hunt-session[aria-hidden="true"]{
-    display: none;
-}
-
-.music-button{
-    position: absolute;
-    display: flex;
-    align-items: center;
-    top: 20px;
-    left: 20px;
-    background-color: green;
-    cursor: pointer;
-    padding: 5px;
-    border: none;
-}
-
-.music-button svg{
-    width: 30px;
-}
-.music-button svg path{
-    fill: #FFD700;
-    stroke: #005E89;
-}
-
-#hamburger{
-    display: none;
-    position: relative;
-}
-#hamburger #burger-button{
-    border: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    background-color: transparent;
-    padding: 0;
-    box-shadow: none;
-    grid-column: 1;
-    justify-self: start;
-    transition: transform 0.2s ease-in;
-}
-#hamburger #burger-button:hover{
-   transform: rotateZ(180deg);
-}
-#hamburger #burger-button svg{
-    width: 30px;
-    height: 30px;
-}
-#hamburger img{
-    width: 90px;
-    grid-column: 2;
-    justify-self: center;
-}
-#menu-overlay[aria-hidden="true"]{
-    display: none;
-}
-#menu-overlay{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: absolute;
-    top: 85px;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 100;
-    background-color: black;
-    overflow: hidden;
-}
-#menu-overlay #close-button{
-    border: none;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    padding: 3px;
-    box-shadow: none;
-    position: absolute;
-    z-index: 150;
-    top: 25px;
-    right: 25px;
-    background-color: transparent;
-    transition: transform 0.2s ease-in;
-}
-#menu-overlay #close-button:hover{
-    transform: rotateY(180deg);
-}
-#menu-overlay svg{
-    width: 30px;
-    height: 30px;
-}
-#menu-overlay svg path{
-    stroke: white;
-}
-#mobile-menu{
-    display: flex;
-    list-style: none;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 50px;
-}
-#mobile-menu .menu-option a{
-    font-size: 20px;
-    padding: 15px;
-    width: 300px;
-}
-
-/*Media Queries*/
-@media screen and (max-width: 1700px){
-    #game-started,
-    #game-not-started{
-        max-width: 1350px;
-        max-height: 1000px;
-    }
-}
-@media screen and (max-width: 1500px){
-    #game-started,
-    #game-not-started{
-        max-width: 1250px;
-        max-height: 900px;
-    }
-}
-
-@media screen and (max-width: 1350px){
-    #game-started,
-    #game-not-started{
-        max-width: 1100px;
-        max-height: 900px;
-    }
-    #logozilla{
-        height: 300px;
-    }
-    #start-game{
-        padding: 15px;
-    }
-    #game-not-started h2{
-        font-size: 30px;
-    }
-}
-@media screen and (max-width: 1150px){
-    #game-started,
-    #game-not-started{
-        max-width: 1000px;
-        max-height: 800px;
-    }
-    #logozilla{
-        height: 250px;
-    }
-}
-@media screen and (max-width: 1050px){
-    #game-started,
-    #game-not-started{
-        max-width: 900px;
-        max-height: 700px;
-    }
-    #logozilla{
-        height: 200px;
-    }
-    #game-started #breadcrumb img {
-        width: 100px;
-    }
-    #game-started #breadcrumb{
-        height: 80px;
-    }
-    #start-game{
-        padding: 10px;
-        min-width: 150px;
-    }
-    #game-not-started h2{
-        font-size: 25px;
-    }
-    #go-back{
-        top: 100px !important;
-    }
-}
-
-@media screen and (max-width: 950px){
-    #game-started,
-    #game-not-started{
-        max-width: 800px;
-        max-height: 650px;
-    }
-    #logozilla{
-        height: 175px;
-    }
-    #game-started #treasure-hunt-form{
-        margin-top: 100px;
-    }
-}
-@media screen and (max-width: 840px){
-    #game-started,
-    #game-not-started{
-        max-width: 750px;
-        max-height: 600px;
-    }
-    #game-started,
-    #game-not-started{
-        box-shadow: none;
-    }
-    header{
-        height: 85px;
-    }
-    header #desktop-nav{
-        display: none;
-    }
-    header #hamburger{
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
-    }
-    #game-started #treasure-hunt-form{
-        margin-top: 75px;
-    }
-    /*#mobile-menu{*/
-    /*    display: flex;*/
-    /*    flex-direction: column;*/
-    /*    align-items: flex-start;*/
-    /*    justify-content: flex-start;*/
-    /*    gap: 20px;*/
-    /*}*/
-   header #hamburger{
-      padding: 10px;
-   }
-}
-@media screen and (max-width: 780px){
-    #game-started{
-        max-width: 700px;
-        max-height: 570px;
-    }
-    #game-started .treasure-hunt-button{
-        padding: 5px 10px;
-        max-width: 85%;
-    }
-    #game-started .treasure-hunt-button #hunt{
-        font-size: 20px;
-    }
-    #game-started .treasure-hunt-button #submit-icon{
-        width: 30px;
-    }
-    #go-back{
-        font-size: 15px !important;
-    }
-}
-@media screen and (max-width: 720px){
-    #game-started{
-        max-width: 95%;
-    }
-}
-@media screen and (max-width: 600px){
-    #part-1 #info{
-        font-size: 22px;
-        word-break: break-all;
-    }
-}
-@media screen and (max-width: 550px){
-    #logozilla{
-        height: 150px;
-    }
-    #game-not-started h2{
-        font-size: 20px;
-    }
-    #start-game{
-        padding: 8px;
-        font-size: 18px;
-    }
-    #part-1 #info{
-        font-size: 18px;
-    }
-    #game-started #treasure-hunt-form #part-1 .treasure-hunt-button{
-        padding: 5px 5px;
-    }
-    #game-started #treasure-hunt-form #part-2 #player{
-        max-width: 250px;
-        width: 100%;
-    }
-    #game-started #treasure-hunt-form #part-2 #submit{
-       font-size: 18px;
-        padding: 15px;
-        max-width: 150px;
-        width: 100%;
-    }
-}
-@media screen and (max-width: 400px){
-    #game-started #treasure-hunt-form #part-1 .treasure-hunt-button #hunt{
-       font-size: 19px;
-    }
-    #game-started #treasure-hunt-form #part-1 .treasure-hunt-button #submit-icon{
-        width: 24px;
-        left: 95%;
-    }
+@media (min-width: 768px) {
+  .screen { padding-top: 40px; }
+  .screen h1 { font-size: 36px; }
 }

@@ -1,138 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Huntzilla - Treasure Hunt App</title>
-    <link rel="stylesheet" href="css/app.css"/>
-    <link href="https://aleralerttfonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap" rel="stylesheet">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Play Huntzilla</title>
+  <meta name="description" content="Pick a live Huntzilla treasure hunt, answer the clues at real places and climb the leaderboard.">
+  <link rel="icon" type="image/png" href="media/brand/favicon-48.png">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/app.css">
 </head>
-<body>
-    <header>
-        <nav id="desktop-nav">
-            <ul>
-                <li class="menu-option" id="logo">
-                    <h1>Huntzilla</h1>
-                </li>
-                <li class="menu-option">
-                    <a href="index.html">Home</a>
-                </li>
-                <li class="menu-option">
-                    <a href="app.html">Treasure Hunt</a>
-                </li>
-                <li class="menu-option">
-                   <a href="leaderboard.html">Leaderboard</a>
-                </li>
-            </ul>
-        </nav>
-        <nav id="hamburger">
-            <button id="burger-button">
-                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                    <g id="SVGRepo_iconCarrier">
-                        <!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
-                        <path d="M20 7L4 7" stroke="#000000" stroke-width="1.5" stroke-linecap="round"></path>
-                        <path d="M20 12L4 12" stroke="#000000" stroke-width="1.5" stroke-linecap="round"></path>
-                        <path d="M20 17L4 17" stroke="#000000" stroke-width="1.5" stroke-linecap="round"></path>
-                    </g>
-                </svg>
-            </button>
-            <img src="./media/logo2.png" alt="Huntzilla Logo"/>
-        </nav>
-    </header>
-    <div id="menu-overlay" aria-hidden="true">
-        <button id="close-button">
-            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                <g id="SVGRepo_iconCarrier">
-                    <!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
-                    <path
-                            d="M19 5L4.99998 19M5.00001 5L19 19"
-                            stroke="#000000"
-                            stroke-width="1.5"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                    ></path>
-                </g>
-            </svg>
-        </button>
+<body class="game">
+  <a class="skip-link" href="#main">Skip to content</a>
 
-        <ul id="mobile-menu">
-            <li class="menu-option">
-                <a href="index.html">Home</a>
-            </li>
-            <li class="menu-option">
-                <a href="app.html">Treasure Hunt</a>
-            </li>
-            <li class="menu-option">
-                <a href="leaderboard.html">Leaderboard</a>
-            </li>
-        </ul>
+  <header class="topbar">
+    <a class="bar-link" href="index.html">← Home</a>
+    <a class="brand" href="index.html" title="Huntzilla home"><span class="wordmark wordmark--sm"><img src="media/brand/mascot-96.png" alt="" width="28" height="28"><span><span class="wm-a">Hunt</span><span class="wm-b">zilla</span></span></span></a>
+    <button class="bar-link bar-right" type="button" onclick="show('help-dialog')">Help</button>
+  </header>
+
+  <main class="screen" id="main">
+    <!-- the list of hunts -->
+    <section id="list-view">
+      <h1>Pick a hunt</h1>
+      <div id="hunt-list">
+        <p class="muted">Loading hunts…</p>
+      </div>
+      <div class="list-footer">
+        <p class="muted" id="updated"></p>
+        <button class="btn btn-light" type="button" onclick="loadHunts()">Refresh</button>
+      </div>
+    </section>
+  </main>
+
+  <!-- how to play -->
+  <div class="dialog-back" id="help-dialog">
+    <div class="dialog">
+      <h2>How to play</h2>
+      <ol class="rules">
+        <li>Pick a live hunt and enter your name.</li>
+        <li>Go to the place the clue points to and answer it.</li>
+        <li>Right answers earn points. Wrong answers and skips cost points.</li>
+        <li>Finish before the clock runs out.</li>
+      </ol>
+      <button class="btn" type="button" onclick="hide('help-dialog')">Got it</button>
     </div>
-    <main>
-        <div id="game-not-started" class="game-container" aria-hidden="true">
-            <img id="logozilla" src="media/logo2.png" alt="Huntzilla Logo"/>
-            <h2>Are You Ready to Hunt For Glory?</h2>
+  </div>
 
-            <button id="start-game">START</button>
-<!--            <button class="music-button">-->
-<!--                <svg id=`music-svg` viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#FFD700" stroke-width="0.8960000000000001" color="rgb(255, 215, 0)">-->
-<!--                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>-->
-<!--                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>-->
-<!--                    <g id="SVGRepo_iconCarrier">&lt;!&ndash; Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools &ndash;&gt;-->
-<!--                        <path d="M6 1H8V15H6L2 11H0V5H2L6 1Z" fill="#26d51b"></path>-->
-<!--                        <path d="M14 8C14 5.79086 12.2091 4 10 4V2C13.3137 2 16 4.68629 16 8C16 11.3137 13.3137 14 10 14V12C12.2091 12 14 10.2091 14 8Z" fill="#26d51b"></path>-->
-<!--                        <path d="M12 8C12 9.10457 11.1046 10 10 10V6C11.1046 6 12 6.89543 12 8Z" fill="#26d51b"></path>-->
-<!--                    </g>-->
-<!--                </svg>-->
-<!--            </button>-->
-<!--            <audio class="jingle" loop>-->
-<!--                <source src="media/jingle.mp3" type="audio/mpeg">-->
-<!--            </audio>-->
-        </div>
-        <div id="game-started" class="game-container" aria-hidden="true">
-            <div id="breadcrumb">
-                <button id="go-back" aria-hidden="true">< Go Back</button>
-                <img src="media/logo2.png" alt="Huntzilla Logo"/>
-            </div>
-            <form id="treasure-hunt-form" aria-hidden="true">
-                <div id="part-1" class="part-container" aria-hidden="true">
-                    <p id="info">Select one of the available treasure hunts to play</p>
-                    <ul id="treasure-hunts-list">
-                        <!---Buttons added dynamically-->
-                    </ul>
-                </div>
-                <div id="part-2" class="part-container" aria-hidden="true">
-                    <div class="input-container">
-                        <label for="player">Player Name:</label>
-                        <input type="text" name="player" id="player" required/>
-                    </div>
-                    <input type="button" id="submit" value="Start Game"/>
-                    <p id="error-message" aria-hidden="true"></p>
-                </div>
-            </form>
-<!--            <button class="music-button">-->
-<!--                <svg id=`music-svg` viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#FFD700" stroke-width="0.8960000000000001" color="rgb(255, 215, 0)">-->
-<!--                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>-->
-<!--                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>-->
-<!--                    <g id="SVGRepo_iconCarrier">&lt;!&ndash; Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools &ndash;&gt;-->
-<!--                        <path d="M6 1H8V15H6L2 11H0V5H2L6 1Z" fill="#26d51b"></path>-->
-<!--                        <path d="M14 8C14 5.79086 12.2091 4 10 4V2C13.3137 2 16 4.68629 16 8C16 11.3137 13.3137 14 10 14V12C12.2091 12 14 10.2091 14 8Z" fill="#26d51b"></path>-->
-<!--                        <path d="M12 8C12 9.10457 11.1046 10 10 10V6C11.1046 6 12 6.89543 12 8Z" fill="#26d51b"></path>-->
-<!--                    </g>-->
-<!--                </svg>-->
-<!--            </button>-->
-<!--            <audio class="jingle" loop>-->
-<!--                <source src="media/jingle.mp3" type="audio/mpeg">-->
-<!--            </audio>-->
-        </div>
-    </main>
-
-    <script type="module" src="scripts/app.js"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Bahiana&display=swap" rel="stylesheet">
+  <script src="scripts/logic.js"></script>
+  <script src="scripts/api.js"></script>
+  <script src="scripts/state.js"></script>
+  <script src="scripts/page.js"></script>
+  <script src="scripts/app.js"></script>
 </body>
 </html>

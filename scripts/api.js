@@ -26,6 +26,22 @@ function errorKind(message) {
   return "unknown";
 }
 
+// message for the player for each error
+function errorText(data) {
+  let kind = data.kind;
+  if (kind === "network") return "No connection. Check your internet and try again.";
+  if (kind === "name-taken") return "That name is already playing this hunt. Try another one.";
+  if (kind === "name-missing") return "Add a name so we can put you on the leaderboard.";
+  if (kind === "hunt-not-active") return "This hunt isn't open right now.";
+  if (kind === "hunt-empty") return "This hunt has no clues yet.";
+  if (kind === "hunt-unknown") return "We can't find that hunt any more.";
+  if (kind === "session-unknown") return "We can't find your game any more. Start a new one.";
+  if (kind === "expired") return "Time's up for this hunt.";
+  if (kind === "cannot-skip") return "This clue can't be skipped.";
+  if (data.message) return data.message;
+  return "Something went wrong. Try again.";
+}
+
 // takes out & # + because they break the url
 function cleanParam(value) {
   let text = "" + value;
